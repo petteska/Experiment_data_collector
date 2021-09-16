@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is the final page of the experiment!</h1>
+    <form>
+        <label for="subject_id">Enter subject id:</label>
+        <input type="text" name="subject_id" id="subject_id">
+    </form>
+    <button onclick="finalize()">Save the data</button>
+    
+    <script src="utils.js"></script>
+    <script>
+        function finalize() {
+            var id = document.getElementById("subject_id").value;
+            var data = 
+            "ID: " + id + "\r\n" +
+            "Consent: " + get("consent") + "\r\n" +
+            "Date: " + get("Date") + "\r\n" +
+            "Time: " + get("Time") + "\r\n";
+
+            savefile(id, data);
+        }
+    </script>
+</body>
+</html>

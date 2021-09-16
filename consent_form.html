@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Title page</title>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1>Consent form</h1>
+
+            <iframe src="./forms/consent-form.pdf" width="100%" height="800px" frameborder="0"></iframe>
+            
+            <form>
+                <label for="consent">I have read through the provided consent form and wants to continue with the experiment.</label>
+                <input type="checkbox" id="consent">
+            </form>
+            <div id="form_feedback"></div>
+            <div class="navigation_buttons">
+                <button onclick="location.href='./index.html'">Back</button>
+                <button onclick="next()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+
+    <script>
+    
+        function next() {
+            const consent = document.getElementById("consent");
+            if(consent.checked == true) {
+                console.log("true")
+
+                store("consent","true");
+                location.href='./questionnaire.html'
+
+                /*Create text file*/
+                // var id      = document.getElementById("id").value;
+                // var id = "consent";
+                // var content = document.getElementById("consent").value;
+                // writeToFile(id, content);
+
+                // savefile("Test");
+
+
+            } else {
+                console.log("false")
+                let result = document.getElementById("form_feedback");
+                result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
+            }
+        }
+
+        function writeToFile(d1,d2){
+            // var fso = new ActiveXObject("Scripting.FileSystemObject");
+            // var fh = fso.OpenTextFile("data.txt", 8, false, 0);
+            // fh.WriteLine(d1 + ',' + d2);
+            // fh.Close();
+
+            const fs = require('fs');
+        }
+    </script>
+</body>
+</html>

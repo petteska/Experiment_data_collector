@@ -24,7 +24,7 @@ button {
     width: 70%;
     border: 5px solid yellow;
     position: relative;
-    height: 200px;
+    height: auto;
 
 
     /* position: absolute;

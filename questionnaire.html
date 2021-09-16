@@ -7,11 +7,10 @@
 <body>
     <div class="content">
         <div class="information">
-
-            <h1>Welcome page</h1>
-            <p>Hi! Welcome to this experiment. We are very happy that you chose to be a part of this.</p>
-            <p>Before we start the experiment, we would like that you answer some simple questions first. Press the button below to get started.</p>
+            <h1>Questionnaire</h1>
+            <p>Please answer the following questions as truefully as possible. Remember that we are not judging you, so there is no reason for you to "impress" us ;)</p>
             <div class="navigation_buttons">
+                <button onclick="location.href='./consent_form.html'">Back</button>
                 <button onclick="next()">Continue</button>
             </div>
         </div>
@@ -19,10 +18,13 @@
 
     <script src="utils.js"></script>
     <script>
+    
         function next() {
-            init();
-            location.href='./consent_form.html'
+            console.log(get("consent"));
+            start_experiment();
+            location.href='./final.html'
         }
     </script>
+    
 </body>
 </html>
