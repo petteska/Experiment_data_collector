@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self-evaluation</title>
+    <link rel="stylesheet" href="self_evaluation.css">
+    <link rel="stylesheet" href="general.css">
+</head>
+<body>
+    <div class="content">
+        <h1>Self-evaluation</h1>
+        <p>Please fill out the following </p>
+    
+        <div id="self-evaluation">
+            <div id="SAM">
+                <div id="valence">
+                    <img src="./images/SAM_valence.png" alt="SAM valence">
+                    <input type="range" min="0" max="10" value="5" class="slider" id="slider_valence">
+                </div>
+                
+                <div id="arousal">
+                    <img src="./images/SAM_arousal.png" alt="SAM arousal">
+                    <input type="range" min="0" max="10" value="5" class="slider" id="slider_arousal">
+                </div>
+            </div>
+            <div id="range">
+                <p>Evaluate how well you felt the emotion <span id="emotion">...</span> during the last experiment?</p>
+                <!-- <input type="range" min="0" max="10" value="5" class="slider"> -->
+                <div class="select_ten">
+                    <label> 0 <br>
+                        <input type="radio" id="select_0" name="select_ten_val" value="0">
+                    </label>
+                    <label> 1 <br>
+                        <input type="radio" id="select_1" name="select_ten_val" value="1">
+                    </label>
+                    <label> 2 <br>
+                        <input type="radio" id="select_2" name="select_ten_val" value="2">
+                    </label>
+                    <label> 3 <br>
+                        <input type="radio" id="select_3" name="select_ten_val" value="3">
+                    </label>
+                    <label> 4 <br>
+                        <input type="radio" id="select_4" name="select_ten_val" value="4">
+                    </label>
+                    <label> 5 <br>
+                        <input type="radio" id="select_5" name="select_ten_val" value="5">
+                    </label>
+                    <label> 6 <br>
+                        <input type="radio" id="select_6" name="select_ten_val" value="6">
+                    </label>
+                    <label> 7 <br>
+                        <input type="radio" id="select_7" name="select_ten_val" value="7">
+                    </label>
+                    <label> 8 <br>
+                        <input type="radio" id="select_8" name="select_ten_val" value="8">
+                    </label>
+                    <label> 9 <br>
+                        <input type="radio" id="select_9" name="select_ten_val" value="9">
+                    </label>
+                    <label> 10 <br>
+                        <input type="radio" id="select_10" name="select_ten_val" value="10">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()">Back</button>
+            <button onclick="next()">Continue</button>
+        </div>
+    </div>
+
+
+
+    <script src="utils.js"></script>
+
+    <script>
+        function next(){
+            console.log("valence: " + document.getElementById("slider_valence").value);
+            store("SAM_valence", document.getElementById("slider_valence").value);
+            store("SAM_arousal", document.getElementById("slider_arousal").value);
+
+            var elements = document.getElementsByName("select_ten_val");
+
+            store("Eval_scale", get_value_radio(elements));
+
+            // navigate_to_next_page();
+        }
+
+    </script>
+    
+</body>
+</html>
