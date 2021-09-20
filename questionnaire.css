@@ -1,0 +1,45 @@
+.radio_select {
+    /* border: 3px solid black; */
+    width: auto;
+    height: auto;
+    display: table;
+    /* border-collapse: separate; */
+    /* border-spacing: 1px; */
+    text-align: center;
+}
+
+.radio_select label {
+    display: table-cell;
+    text-align: center;
+    /* border: 1px solid #FF0000; */
+    vertical-align: middle;
+}
+
+/* #questionnaire label {
+    display: table-cell;
+    text-align: left;
+    border: 1px solid #FF0000;
+    vertical-align: middle;
+} */
+
+
+.question {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#questionnaire {
+    max-width: 800px;
+    text-align: left;
+    /* border:5px solid blue; */
+    margin:auto;
+}
+
+#questionnaire label {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+

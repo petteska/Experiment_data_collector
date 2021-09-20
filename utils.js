@@ -1,8 +1,25 @@
-const emotions = {
+const EMOTIONS = {
+    BASELINE: "baseline",
     HAPPY: "happy",
     AFRAID: "afraid",
     SAD: "sad",
     RELAXED: "relaxed",
+}
+
+const ACTIONS = {
+    PRE_SELF_ASSESSMENT: "pre-self-assessment",
+    EMOTION_ACTIVATION: "emotion-activation",
+    POST_SELF_ASSESSMENT: "post-self-assessment",
+}
+
+const PAGE_TYPES = {
+    WELCOME: "welcome",
+    CONSENT_FORM: "consent-form",
+    QUESTIONNAIRE: "questionnaire",
+    SETUP: "setup",
+    SELF_ASSESSMENT: "self-assessment",
+    EMOTION_ACTIVATION: "emotion-activation",
+    FINAL: "final",
 }
 
 function init() {
@@ -48,7 +65,35 @@ function shuffleArray(array) {
     }
         
     return array;
- }
+}
+
+function start_self_assessment() {
+    // Register time and date
+    var today = new Date();
+    //  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    
+
+
+
+}
+
+
+
+function get_self_assessment_result() {
+    var emotion_scale_elements = document.getElementsByName("emotion_scale");
+    var result = {
+        SAM: {
+            valence: document.getElementById("sam_valence").value,
+            arousal: document.getElementById("sam_arousal").value,
+        },
+        emotion_scale: get_value_radio(emotion_scale_elements),
+    }
+
+    return result;
+}
+
+
 
 function start_experiment() {
     // Register time and date
@@ -61,18 +106,176 @@ function start_experiment() {
 
     // Find randomized list of tasks:
 
-    var tasks = [emotions.AFRAID, emotions.HAPPY, emotions.RELAXED, emotions.SAD];
+    var tasks = [EMOTIONS.AFRAID, EMOTIONS.HAPPY, EMOTIONS.RELAXED, EMOTIONS.SAD];
     var ordered_tasks = shuffleArray(tasks);
     for(var i = 0; i < ordered_tasks.length; i++){
         store("Emotion_" + (i + 1), ordered_tasks[i]); 
     }
 
     store("Index",0);
-    navigate_to_next_page();
+    store("Current_emotion", EMOTIONS.BASELINE);
+    store("Current_action", ACTIONS.PRE_SELF_ASSESSMENT);
+
+    var emotions = {
+        baseline: {
+            pre_self_assessment: {
+                result:"",
+            },
+            emotion_activation: {
+                start_time: "",
+                end_time: "",
+            },
+            post_self_assessment: {
+                result: "",
+            },
+        },
+        afraid: {
+            pre_self_assessment: {
+                result:"",
+            },
+            emotion_activation: {
+                start_time: "",
+                end_time: "",
+            },
+            post_self_assessment: {
+                result: "",
+            },
+        },
+        happy: {
+            pre_self_assessment: {
+                result:"",
+            },
+            emotion_activation: {
+                start_time: "",
+                end_time: "",
+            },
+            post_self_assessment: {
+                result: "",
+            },
+        },
+        relaxed: {
+            pre_self_assessment: {
+                result:"",
+            },
+            emotion_activation: {
+                start_time: "",
+                end_time: "",
+            },
+            post_self_assessment: {
+                result: "",
+            },
+        },
+        sad: {
+            pre_self_assessment: {
+                result:"",
+            },
+            emotion_activation: {
+                start_time: "",
+                end_time: "",
+            },
+            post_self_assessment: {
+                result: "",
+            },
+        }
+        
+    }
+
+    store("Emotions",JSON.stringify(emotions));
+    location.href="./baseline.html";
+}
+
+
+function store_questionnaire() {
+    var comfort_physic_elements = document.getElementsByName("comfort_physic");
+    var comfort_social_elements = document.getElementsByName("comfort_social");
+
+
+    var questionnaire_answers = {
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        last_time_ate:  document.getElementById("ate").value,
+        sleep_duration: document.getElementById("sleep").value,
+        comfort_physic: get_value_radio(comfort_physic_elements),
+        comfort_social: get_value_radio(comfort_social_elements),
+    }
+
+    store("questionnaire",JSON.stringify(questionnaire_answers));
 }
 
 
 function navigate_to_next_page() {
+    store("Previous_emotion",get("Current_emotion"));
+    switch(get("Current_page_type")){
+        case PAGE_TYPES.WELCOME:
+            console.log("Navigating from " + get("Current_page_type"));
+            location.href="./consent_form.html";
+            return;
+        case PAGE_TYPES.CONSENT_FORM:
+            console.log("Navigating from " + get("Current_page_type"));
+
+            const consent = document.getElementById("consent");
+            if(consent.checked == true) {
+                console.log("true")
+                store("Consent","true");
+                location.href='./questionnaire.html'
+            } else {
+                console.log("false")
+                let result = document.getElementById("consent_form_feedback");
+                result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
+            }
+            return;
+        case PAGE_TYPES.QUESTIONNAIRE:
+            console.log("Navigating from " + get("Current_page_type"));
+
+            store_questionnaire();
+            location.href="./setup_phase.html"
+            return;
+        case PAGE_TYPES.SETUP:
+            console.log("Navigating from " + get("Current_page_type"));
+            if(document.getElementById("setup_complete").checked == true) {
+                start_experiment()
+                console.log("true");
+            } else {
+                console.warn("You have to check the box to continue");
+                return;
+            }
+            return;
+        case PAGE_TYPES.SELF_ASSESSMENT:
+            console.log("Navigating from " + get("Current_page_type"));
+
+            var emotions = JSON.parse(get("Emotions"));
+            var current_emotion = get("Current_emotion");
+
+            console.log("Action: " + get("Current_action"));
+            console.log("Emotion: " + current_emotion);
+            
+
+            switch(get("Current_action")){
+                case ACTIONS.PRE_SELF_ASSESSMENT:
+                    emotions[current_emotion].pre_self_assessment = get_self_assessment_result();
+                    // console.log(get_self_assessment_result());
+                    // console.log(emotions[current_emotion].pre_self_assessment);
+                    // console.log("Pre");
+                    break;
+                case ACTIONS.POST_SELF_ASSESSMENT:
+                    emotions[current_emotion].post_self_assessment = get_self_assessment_result();
+                    console.log("Post");
+                    break;
+                default:
+                    console.error("Something went terribly wrong!!");
+                    return;
+            }
+            console.log(emotions[current_emotion].pre_self_assessment);
+
+            store("Emotions",JSON.stringify(emotions));
+            break;
+
+        default:
+            console.error("Got " + get("Current_page_type"));
+            return;
+            
+    }
+
     var current_index = get("Index");
     console.log("Current index: " + current_index);
     var next_index = Number(current_index) + 1;
@@ -80,25 +283,27 @@ function navigate_to_next_page() {
 
     
     switch(get("Emotion_" + next_index)) {
-        case emotions.SAD:
+        case EMOTIONS.SAD:
             location.href='./sad.html';
             break;
 
-        case emotions.RELAXED:
+        case EMOTIONS.RELAXED:
             location.href='./relaxed.html';
             break;
         
-        case emotions.HAPPY:
+        case EMOTIONS.HAPPY:
             location.href='./happy.html';
             break;
 
-        case emotions.AFRAID:
+        case EMOTIONS.AFRAID:
             location.href='./afraid.html';
             break;
         default:
-            location.href='./final.html';
+            // location.href='./final.html';
             break;
     }
+
+    
 
 
     store("Index",next_index);

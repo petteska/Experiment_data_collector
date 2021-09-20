@@ -3,28 +3,96 @@
 <head>
     <title>Title page</title>
     <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="questionnaire.css">
     <!-- <link rel="stylesheet" href="index.css"> -->
 </head>
 <body>
     <div class="content">
+        
         <div class="information">
             <h1>Questionnaire</h1>
             <p>Please answer the following questions as truefully as possible. Remember that we are not judging you, so there is no reason for you to "impress" us ;)</p>
-            <div class="navigation_buttons">
-                <button onclick="location.href='./consent_form.html'">Back</button>
-                <button onclick="next()">Continue</button>
+            
+        </div>
+        <hr>
+        <div id="questionnaire">
+            <div class="question">
+                <label for="age"> Age:</label>
+                    <input type="number" name="age" id="age" required>
             </div>
+            
+            <div class="question">
+                <label for="gender">Gender:</label> 
+                <select name="gender" id="gender">
+                    <option value="none"></option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="question">
+                <label for="ate">When was the last time you ate?</label>
+                <input type="time" name="ate" id="ate" required>
+            </div>
+            
+            <div class="question">
+                <label for="sleep">How long did you sleep last night?</label>
+                <input type="text" name="sleep" id="sleep" placeholder="hh:mm" required>
+            </div>
+            
+            <div class="question">
+                <label for="comfort_physic"> How physically comfortable do you feel? <br> (1 = Very uncomfortable, 5 = Very comfortable)</label>
+                <div class="radio_select" id="comfort_physic">
+                    <label for="comfort_1"> 1 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_1" value="1">
+                    </label>
+                    <label for="comfort_2"> 2 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_2" value="2">
+                    </label>
+                    <label for="comfort_3"> 3 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_3" value="3">
+                    </label>
+                    <label for="comfort_4"> 4 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_4" value="4">
+                    </label>
+                    <label for="comfort_5"> 5 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_5" value="5">
+                    </label>
+                </div>
+            </div> 
+            
+            <div class="question">
+                <label for="comfort_social"> How socially comfortable do you feel? <br> (1 = Very uncomfortable, 5 = Very comfortable)</label>
+                <div class="radio_select" id="comfort_social">
+                    <label for="comfort_1"> 1 <br>
+                        <input type="radio" name="comfort_social" id="comfort_1" value="1">
+                    </label>
+                    <label for="comfort_2"> 2 <br>
+                        <input type="radio" name="comfort_social" id="comfort_2" value="2">
+                    </label>
+                    <label for="comfort_3"> 3 <br>
+                        <input type="radio" name="comfort_social" id="comfort_3" value="3">
+                    </label>
+                    <label for="comfort_4"> 4 <br>
+                        <input type="radio" name="comfort_social" id="comfort_4" value="4">
+                    </label>
+                    <label for="comfort_5"> 5 <br>
+                        <input type="radio" name="comfort_social" id="comfort_5" value="5">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()">Back</button>
+            <button onclick="navigate_to_next_page()">Continue</button>
         </div>
     </div>
 
     <script src="utils.js"></script>
     <script>
-    
-        function next() {
-            console.log(get("consent"));
-            start_experiment();
-            // location.href='./final.html'
-        }
+        store("Current_page_type",PAGE_TYPES.QUESTIONNAIRE);
     </script>
     
 </body>

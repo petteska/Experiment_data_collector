@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Self-evaluation</title>
-    <link rel="stylesheet" href="self_evaluation.css">
+    <title>self-assessment</title>
+    <link rel="stylesheet" href="self_assessment.css">
     <link rel="stylesheet" href="general.css">
 </head>
 <body>
     <div class="content">
-        <h1>Self-evaluation</h1>
+        <h1>self-assessment</h1>
         <p>Please fill out the following </p>
     
-        <div id="self-evaluation">
+        <div id="self-assessment">
             <div id="SAM">
                 <div id="valence">
                     <img src="./images/SAM_valence.png" alt="SAM valence">
-                    <input type="range" min="0" max="10" value="5" class="slider" id="slider_valence">
+                    <input type="range" min="0" max="10" value="5" class="slider" id="sam_valence">
                 </div>
                 
                 <div id="arousal">
                     <img src="./images/SAM_arousal.png" alt="SAM arousal">
-                    <input type="range" min="0" max="10" value="5" class="slider" id="slider_arousal">
+                    <input type="range" min="0" max="10" value="5" class="slider" id="sam_arousal">
                 </div>
             </div>
             <div id="range">
@@ -30,44 +30,44 @@
                 <!-- <input type="range" min="0" max="10" value="5" class="slider"> -->
                 <div class="select_ten">
                     <label> 0 <br>
-                        <input type="radio" id="select_0" name="select_ten_val" value="0">
+                        <input type="radio" id="select_0" name="emotion_scale" value="0">
                     </label>
                     <label> 1 <br>
-                        <input type="radio" id="select_1" name="select_ten_val" value="1">
+                        <input type="radio" id="select_1" name="emotion_scale" value="1">
                     </label>
                     <label> 2 <br>
-                        <input type="radio" id="select_2" name="select_ten_val" value="2">
+                        <input type="radio" id="select_2" name="emotion_scale" value="2">
                     </label>
                     <label> 3 <br>
-                        <input type="radio" id="select_3" name="select_ten_val" value="3">
+                        <input type="radio" id="select_3" name="emotion_scale" value="3">
                     </label>
                     <label> 4 <br>
-                        <input type="radio" id="select_4" name="select_ten_val" value="4">
+                        <input type="radio" id="select_4" name="emotion_scale" value="4">
                     </label>
                     <label> 5 <br>
-                        <input type="radio" id="select_5" name="select_ten_val" value="5">
+                        <input type="radio" id="select_5" name="emotion_scale" value="5">
                     </label>
                     <label> 6 <br>
-                        <input type="radio" id="select_6" name="select_ten_val" value="6">
+                        <input type="radio" id="select_6" name="emotion_scale" value="6">
                     </label>
                     <label> 7 <br>
-                        <input type="radio" id="select_7" name="select_ten_val" value="7">
+                        <input type="radio" id="select_7" name="emotion_scale" value="7">
                     </label>
                     <label> 8 <br>
-                        <input type="radio" id="select_8" name="select_ten_val" value="8">
+                        <input type="radio" id="select_8" name="emotion_scale" value="8">
                     </label>
                     <label> 9 <br>
-                        <input type="radio" id="select_9" name="select_ten_val" value="9">
+                        <input type="radio" id="select_9" name="emotion_scale" value="9">
                     </label>
                     <label> 10 <br>
-                        <input type="radio" id="select_10" name="select_ten_val" value="10">
+                        <input type="radio" id="select_10" name="emotion_scale" value="10">
                     </label>
                 </div>
             </div>
         </div>
         <div class="navigation_buttons">
             <button onclick="navigate_to_previous_page()">Back</button>
-            <button onclick="next()">Continue</button>
+            <button onclick="navigate_to_next_page()">Continue</button>
         </div>
     </div>
 
@@ -76,6 +76,7 @@
     <script src="utils.js"></script>
 
     <script>
+        store("Current_page_type",PAGE_TYPES.SELF_ASSESSMENT);
         function next(){
             console.log("valence: " + document.getElementById("slider_valence").value);
             store("SAM_valence", document.getElementById("slider_valence").value);

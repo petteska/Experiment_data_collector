@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="general.css">
+    <title>Setup phase</title>
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1>Before we start the experiment:</h1>
+            <p>Please inform the researcher that are to be equipped with the sensors. When the researcher says so, press the "continue" button below.</p>
+        </div>
+        
+        <div class="input">
+            <form>
+                <label for="setup_complete">I do now wear the necessary sensors and am ready to start the experiment.</label>
+                <br>
+                <input type="checkbox" id="setup_complete">
+            </form>
+        </div>
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()">Back</button>
+            <button onclick="navigate_to_next_page()">Continue</button>
+        </div>
+    </div>
+    
+    
+
+    <script src="utils.js"></script>
+
+    <script>
+        store("Current_page_type", PAGE_TYPES.SETUP);
+    </script>
+    
+</body>
+</html>
