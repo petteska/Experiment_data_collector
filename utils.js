@@ -1,3 +1,4 @@
+// Enums
 const EMOTIONS = {
     BASELINE: "baseline",
     HAPPY: "happy",
@@ -19,23 +20,44 @@ const PAGE_TYPES = {
     SETUP: "setup",
     SELF_ASSESSMENT: "self-assessment",
     EMOTION_ACTIVATION: "emotion-activation",
+    TASK: "task",
+    THANK_YOU: "thank_you",
     FINAL: "final",
 }
 
+const TASKS = {
+    SUDOKU: "sudoku",
+    MAZE_SOLVING: "maze_solving",
+    GEOMETRIC_SHAPE_COPYING: "geometric_shape_copying",
+    FIND_ALL_A: "find all a",
+
+}
+
+const SELF_ASSESSMENT_TYPE = {
+    PRE: "pre",
+    POST: "post",
+}
+
+// Storage
+
 function init() {
     sessionStorage.clear();
+    var location = window.location.href;
+    var directoryPath = location.substring(0, location.lastIndexOf("/")+1);
+    store("Base_path", directoryPath);
+
 }
 
 function store(name,data) {
-    sessionStorage.setItem(name, data);
+    sessionStorage.setItem(name, JSON.stringify(data));
 }
 
 function get(name) {
-    return sessionStorage.getItem(name);
+    return JSON.parse(sessionStorage.getItem(name));
     
 }
 
-function savefile(filename, data) {
+function download_file(filename, data) {
     const textToBLOB = new Blob([data], { type: 'text/plain' });
 
     let newLink = document.createElement("a");
@@ -53,6 +75,50 @@ function savefile(filename, data) {
     newLink.click(); 
 }
 
+function convert_stored_data_to_JSON() {
+    const Experiment_data = {
+        id: document.getElementById("subject_id").value,
+        consent: get("consent"),
+        start_date: get("Date"),
+        start_time: get("Start_time"),
+        questionnaire_answers: get("questionnaire"),
+        emotion_list: get("Emotion_list"),
+        task_list: get("Task_list"),
+        emotion_data: get("Emotion_data")
+    }
+    console.log(Experiment_data);
+    console.log(JSON.stringify(Experiment_data));
+    return JSON.stringify(Experiment_data);
+}
+
+function make_stored_data_printable() {
+    var id = document.getElementById("subject_id").value;
+    var data = 
+    "ID: " + get("Subject_id") + "\r\n" +
+    "Consent: " + get("Consent") + "\r\n" +
+    "Date: " + get("Date") + "\r\n" +
+    "Start time: " + get("Time") + "\r\n" +
+    "Emotion order: " + "[" + get("Emotion_list") + "]" + "\r\n" + 
+    "Task order: " + "[" + get("Task_list") + "]" + "\r\n" +
+    "Comments: " + get("Comments");
+
+    return data;
+}
+
+function format_all_data() {
+    var id = document.getElementById("subject_id").value;
+    var data = 
+    "ID: " + id + "\r\n" +
+    "Consent: " + get("consent") + "\r\n" +
+    "Date: " + get("Date") + "\r\n" +
+    "Time: " + get("Time") + "\r\n";
+
+    return (id, formated_data);
+}
+
+
+// Helper functions
+
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
     
@@ -67,18 +133,20 @@ function shuffleArray(array) {
     return array;
 }
 
-function start_self_assessment() {
-    // Register time and date
-    var today = new Date();
-    //  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    
-
-
-
+function get_value_radio(elements) {
+    for(i = 0; i < elements.length; i++) {
+        if(elements[i].checked)
+        return elements[i].value;
+    }
 }
 
+function get_time() {
+    var today = new Date();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    return time;
+}
 
+// Page specific
 
 function get_self_assessment_result() {
     var emotion_scale_elements = document.getElementsByName("emotion_scale");
@@ -94,7 +162,6 @@ function get_self_assessment_result() {
 }
 
 
-
 function start_experiment() {
     // Register time and date
     var today = new Date();
@@ -102,21 +169,31 @@ function start_experiment() {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
     store("Date",date);
-    store("Time",time);
+    store("Start_time",time);
 
-    // Find randomized list of tasks:
+    // Find randomized list of emotions:
+    var emotion_list = [EMOTIONS.AFRAID, EMOTIONS.HAPPY, EMOTIONS.RELAXED, EMOTIONS.SAD];
+    var shuffled_emotion_list = shuffleArray(emotion_list);
+    shuffled_emotion_list.unshift(EMOTIONS.BASELINE);
+    
+    store("Emotion_list",shuffled_emotion_list);
 
-    var tasks = [EMOTIONS.AFRAID, EMOTIONS.HAPPY, EMOTIONS.RELAXED, EMOTIONS.SAD];
-    var ordered_tasks = shuffleArray(tasks);
-    for(var i = 0; i < ordered_tasks.length; i++){
-        store("Emotion_" + (i + 1), ordered_tasks[i]); 
-    }
+    // Find randomized list of cognitive distraction tasks:
+    var task_list = [TASKS.SUDOKU, TASKS.GEOMETRIC_SHAPE_COPYING, TASKS.FIND_ALL_A,TASKS.MAZE_SOLVING];
+    var shuffled_task_list = shuffleArray(task_list);
+ 
+    store("Task_list",shuffled_task_list);
 
-    store("Index",0);
+
+    // Some initial values
+    store("Task_index",0);
+    store("Emotion_index",0);
     store("Current_emotion", EMOTIONS.BASELINE);
     store("Current_action", ACTIONS.PRE_SELF_ASSESSMENT);
 
-    var emotions = {
+
+    // Initialize container for emotion_data
+    var emotion_data = {
         baseline: {
             pre_self_assessment: {
                 result:"",
@@ -180,8 +257,41 @@ function start_experiment() {
         
     }
 
-    store("Emotions",JSON.stringify(emotions));
-    location.href="./baseline.html";
+    store("Emotion_data",emotion_data);
+    location.href=get("Base_path")+"emotions/baseline.html";
+}
+
+function get_next_emotion_in_list(update_index) {
+    var current_emotion_index = get("Emotion_index");
+
+    var next_emotion_index = Number(current_emotion_index) + 1;
+
+    if (update_index) {
+        store("Emotion_index",next_emotion_index);
+    }
+
+
+    return get("Emotion_list")[next_emotion_index];
+
+}
+
+
+function get_next_task_in_list() {
+    var current_task_index = get("Task_index");
+    
+    var next_task_index = Number(current_task_index) + 1;
+    
+    store("Task_index",next_task_index);
+
+    return get("Task_list")[current_task_index];
+}
+
+// Store page info
+
+function store_consent_form() {
+    const consent = document.getElementById("consent");
+    store("Consent",consent.checked);
+    return;
 }
 
 
@@ -199,123 +309,158 @@ function store_questionnaire() {
         comfort_social: get_value_radio(comfort_social_elements),
     }
 
-    store("questionnaire",JSON.stringify(questionnaire_answers));
+    store("questionnaire",questionnaire_answers);
 }
 
+function store_self_assessment_form(emotion, self_assessment_type) {
+    var emotion_data = get("Emotion_data");
+    switch(self_assessment_type) {
+        case SELF_ASSESSMENT_TYPE.PRE:
+            emotion_data[emotion].pre_self_assessment = get_self_assessment_result();
+            break;
+        case SELF_ASSESSMENT_TYPE.POST:
+            emotion_data[emotion].post_self_assessment = get_self_assessment_result();
+            break;
+        default:
+            console.error("Something went wrong!");
+            return;
+    }
+    store("Emotion_data", emotion_data);
+    return;
+}
+
+function store_start_time(emotion) {
+    var emotion_data = get("Emotion_data");
+    emotion_data[emotion].emotion_activation.start_time = get_time();
+    console.log(get_time());
+    console.log(emotion_data);
+    store("Emotion_data",emotion_data);
+    return;
+}
+
+function store_end_time(emotion) {
+    var emotion_data = get("Emotion_data");
+    emotion_data[emotion].emotion_activation.end_time = get_time();
+
+    store("Emotion_data",emotion_data);
+    return;
+}
+
+// Navigation
 
 function navigate_to_next_page() {
-    store("Previous_emotion",get("Current_emotion"));
-    switch(get("Current_page_type")){
+    switch(get("Current_page_type")) {
         case PAGE_TYPES.WELCOME:
-            console.log("Navigating from " + get("Current_page_type"));
-            location.href="./consent_form.html";
-            return;
+            location.href= get("Base_path") + "consent_form.html";
+            break;
         case PAGE_TYPES.CONSENT_FORM:
-            console.log("Navigating from " + get("Current_page_type"));
-
             const consent = document.getElementById("consent");
             if(consent.checked == true) {
-                console.log("true")
-                store("Consent","true");
-                location.href='./questionnaire.html'
+                store_consent_form()
+                location.href = get("Base_path") + 'questionnaire.html';
             } else {
-                console.log("false")
                 let result = document.getElementById("consent_form_feedback");
                 result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
             }
-            return;
+            break;
         case PAGE_TYPES.QUESTIONNAIRE:
-            console.log("Navigating from " + get("Current_page_type"));
-
             store_questionnaire();
-            location.href="./setup_phase.html"
-            return;
+            location.href = get("Base_path") + "setup_phase.html";
+            break;
         case PAGE_TYPES.SETUP:
-            console.log("Navigating from " + get("Current_page_type"));
             if(document.getElementById("setup_complete").checked == true) {
-                start_experiment()
-                console.log("true");
+                start_experiment()// Change this
             } else {
                 console.warn("You have to check the box to continue");
                 return;
             }
-            return;
-        case PAGE_TYPES.SELF_ASSESSMENT:
-            console.log("Navigating from " + get("Current_page_type"));
-
-            var emotions = JSON.parse(get("Emotions"));
-            var current_emotion = get("Current_emotion");
-
-            console.log("Action: " + get("Current_action"));
-            console.log("Emotion: " + current_emotion);
-            
-
-            switch(get("Current_action")){
-                case ACTIONS.PRE_SELF_ASSESSMENT:
-                    emotions[current_emotion].pre_self_assessment = get_self_assessment_result();
-                    // console.log(get_self_assessment_result());
-                    // console.log(emotions[current_emotion].pre_self_assessment);
-                    // console.log("Pre");
-                    break;
-                case ACTIONS.POST_SELF_ASSESSMENT:
-                    emotions[current_emotion].post_self_assessment = get_self_assessment_result();
-                    console.log("Post");
-                    break;
-                default:
-                    console.error("Something went terribly wrong!!");
-                    return;
-            }
-            console.log(emotions[current_emotion].pre_self_assessment);
-
-            store("Emotions",JSON.stringify(emotions));
             break;
+        case PAGE_TYPES.SELF_ASSESSMENT:
+            switch(get("Previous_page_type")){
+                case PAGE_TYPES.EMOTION_ACTIVATION:
+                    // Here we have done the post-assessment
+                    store_self_assessment_form(get("Current_emotion"), SELF_ASSESSMENT_TYPE.POST);
 
+                    switch(get_next_task_in_list()) {
+                        case TASKS.SUDOKU:
+                            location.href = get("Base_path") + "tasks/" + 'sudoku.html';
+                            break;
+                        case TASKS.FIND_ALL_A:
+                            location.href = get("Base_path") + "tasks/" + 'find_all_a.html';
+                            break;
+                        case TASKS.MAZE_SOLVING:
+                            location.href = get("Base_path") + "tasks/" + 'maze_solving.html';
+                            break;
+                        case TASKS.GEOMETRIC_SHAPE_COPYING:
+                            location.href = get("Base_path") + "tasks/" + 'geometric_shape_copying.html';
+                            break;
+                        default:
+                            // This happens when we finish the task!
+                            location.href = get("Base_path") + "finished.html";
+                    }
+
+                    break;
+
+                case PAGE_TYPES.TASK:
+                    // Here we have done the pre-assessment
+                    var next_emotion = get_next_emotion_in_list(update_index=true);
+                    console.log(next_emotion);
+
+                    store_self_assessment_form(next_emotion,SELF_ASSESSMENT_TYPE.PRE);
+                    store_start_time(next_emotion);
+
+
+                    switch(next_emotion) {
+                        case EMOTIONS.SAD:
+                            location.href= get("Base_path") + "emotions/" + "sad.html";
+                            break;
+        
+                        case EMOTIONS.RELAXED:
+                            location.href= get("Base_path") + "emotions/" + "relaxed.html";
+                            break;
+                        
+                        case EMOTIONS.HAPPY:
+                            location.href= get("Base_path") + "emotions/" + "happy.html";
+                            break;
+        
+                        case EMOTIONS.AFRAID:
+                            location.href= get("Base_path") + "emotions/" + "afraid.html";
+                            break;
+                        default:
+                            location.href= get("Base_path") + "./final.html";
+                            return;
+                    }
+                    break;
+            }
+            break;
+        case PAGE_TYPES.EMOTION_ACTIVATION:
+            const current_emotion = get("Current_emotion");
+
+            store("Previous_emotion", current_emotion);
+            store_end_time(current_emotion);    
+            
+            location.href=get("Base_path") + "self_assessment.html";
+            break;
+        case PAGE_TYPES.TASK:
+            location.href = get("Base_path") + "self_assessment.html";
+            break;
+        case PAGE_TYPES.THANK_YOU:
+            location.href = get("Base_path") + "final.html";
+            break;
         default:
             console.error("Got " + get("Current_page_type"));
-            return;
-            
+            return;         
     }
 
-    var current_index = get("Index");
-    console.log("Current index: " + current_index);
-    var next_index = Number(current_index) + 1;
-    console.log("Next index: " + next_index);
-
-    
-    switch(get("Emotion_" + next_index)) {
-        case EMOTIONS.SAD:
-            location.href='./sad.html';
-            break;
-
-        case EMOTIONS.RELAXED:
-            location.href='./relaxed.html';
-            break;
-        
-        case EMOTIONS.HAPPY:
-            location.href='./happy.html';
-            break;
-
-        case EMOTIONS.AFRAID:
-            location.href='./afraid.html';
-            break;
-        default:
-            // location.href='./final.html';
-            break;
-    }
-
-    
-
-
-    store("Index",next_index);
+    store("Previous_page",window.location.pathname);
+    store("Previous_page_type",get("Current_page_type"));
 }
 
-function navigate_to_previous_page() {
 
-}
 
-function get_value_radio(elements) {
-    for(i = 0; i < elements.length; i++) {
-        if(elements[i].checked)
-        return elements[i].value;
-    }
+
+function navigate_to_previous_page() {// Have to fix this
+    console.log(get("Previous_page"));
+    location.href = get("Previous_page");
+
 }

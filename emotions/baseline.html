@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../general.css">
+    <title>Baseline</title>
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1>Baseline</h1>
+            <p>
+                We want you to recall a situation that made you sad. <br>
+                Our goal is for you to experience the same emotions as you did then, so choose a situation that you have a clear memory of. <br>
+                Examples of such memories could be the loss of someone you love, the feeling of being left alone etc. <br>
+                Write down an as vivid description of the situation as possible. You may include what happend, what do you see and hear and how did that make you feel. <br>
+            </p>
+            <p>Note! No one is going to read what you write so there is no need to hold back.</p> 
+        </div>
+        
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()">Back</button>
+            <button onclick="navigate_to_next_page()">Continue</button>
+        </div>
+    </div>
+
+    <script src="../utils.js"></script>
+    <script>
+        store("Current_page_type", PAGE_TYPES.EMOTION_ACTIVATION);
+        store("Current_emotion",EMOTIONS.BASELINE);
+    </script>
+
+    
+</body>
+</html>

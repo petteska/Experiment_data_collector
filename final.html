@@ -5,31 +5,47 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="stylesheet" href="general.css">
+   <link rel="stylesheet" href="questionnaire.css">
     <title>Document</title>
 </head>
 <body>
     <div class="content">
-        <h1>This is the final page of the experiment!</h1>
-        <form>
-            <label for="subject_id">Enter subject id:</label>
-            <input type="text" name="subject_id" id="subject_id">
-        </form>
-        <button onclick="finalize()">Save the data</button>
-        <button onclick="start_new_experiment()">Start a new experiment!</button>
+        <div>
+            <h1>This is the final page of the experiment!</h1>
+            <p>
+
+            </p>
+        </div>
+        <div>
+            <div class="question">
+                <form>
+                    <label for="subject_id">Enter subject id:</label>
+                    <input type="text" name="subject_id" id="subject_id">
+                </form>
+            </div>
+            <div class="question">
+                <label for="comments">Do you have any comments about the experiment? <br></label>
+                <textarea name="comments" id="comments" cols="30" rows="10" placeholder="Write your comment here!"></textarea>
+            </div>
+        </div>
+        <div class="navigation_buttons">
+            <button onclick="finalize()">Save the data</button>
+            <button onclick="start_new_experiment()">Start a new experiment!</button>
+        </div>
     </div>
 
     
     <script src="utils.js"></script>
     <script>
         function finalize() {
-            var id = document.getElementById("subject_id").value;
-            var data = 
-            "ID: " + id + "\r\n" +
-            "Consent: " + get("consent") + "\r\n" +
-            "Date: " + get("Date") + "\r\n" +
-            "Time: " + get("Time") + "\r\n";
-
-            savefile(id, data);
+            store("Subject_ID", document.getElementById("subject_id").value);
+            store("Comments", document.getElementById("comments").value)
+            const data_JSON = convert_stored_data_to_JSON();
+            const data_printable = make_stored_data_printable();
+            // console.log(converted_data);
+            // console.log(JSON.stringify(converted_data, null, '\r\n'));
+            download_file(String(document.getElementById("subject_id").value) + "_JSON", data_JSON);
+            download_file(String(document.getElementById("subject_id").value) + "_readable", data_printable);
         }
 
         function start_new_experiment() {

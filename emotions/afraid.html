@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../general.css">
+    <title>Afraid</title>
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1>Afraid</h1>
+            <p>
+                We want you to recall a situation that made you very afraid. <br>
+                Try to relive the situation as best as possible. <br>
+                Write down an as vivid description of the situation as possible. You may include what you see, hear and feel. The goal is for you to experience the same emotions as you did then, so don't hold back! <br>
+            </p>
+            <p>Note! No one is going to read what you write.</p> 
+        </div>
+        
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()">Back</button>
+            <button onclick="navigate_to_next_page()">Continue</button>
+        </div>
+    </div>
+    
+
+    
+    <script src="../utils.js"></script>
+    <script>
+        store("Current_page_type", PAGE_TYPES.EMOTION_ACTIVATION);
+        store("Current_emotion",EMOTIONS.AFRAID);
+    </script>
+</body>
+</html>
