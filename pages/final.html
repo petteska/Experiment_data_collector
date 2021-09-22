@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="general.css">
+   <link rel="stylesheet" href="../general.css">
    <link rel="stylesheet" href="questionnaire.css">
     <title>Document</title>
 </head>
@@ -35,21 +35,21 @@
     </div>
 
     
-    <script src="utils.js"></script>
+    <script src="../utils.js"></script>
     <script>
         function finalize() {
-            store("Subject_ID", document.getElementById("subject_id").value);
+            store("Subject_id", document.getElementById("subject_id").value);
             store("Comments", document.getElementById("comments").value)
+
             const data_JSON = convert_stored_data_to_JSON();
             const data_printable = make_stored_data_printable();
-            // console.log(converted_data);
-            // console.log(JSON.stringify(converted_data, null, '\r\n'));
+
             download_file(String(document.getElementById("subject_id").value) + "_JSON", data_JSON);
             download_file(String(document.getElementById("subject_id").value) + "_readable", data_printable);
         }
 
         function start_new_experiment() {
-            location.href='./index.html'
+            location.href='../index.html'
         }
     </script>
 </body>

@@ -5,29 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../general.css">
-    <title>Document</title>
+    <title>Finished</title>
 </head>
 <body>
     <div class="content">
         <div class="information">
-            <h1>Pause Task - Find all a's</h1>
+            <h1>You are finished!</h1>
             <p>
-                Now it is time to pause for a second and perform a simple distractive task.
-                <br>
-                Talk to the researcher if you have not been given the task.
+                Thank you so much for participating in this study! It is a great contribution to me and my research :) <br>
+                You can now hand over the computer to the researcher. Please make sure not to close anything!
             </p>
         </div>
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()">Back</button>
             <button onclick="navigate_to_next_page()">Continue</button>
         </div>
     </div>
 
     <script src="../utils.js"></script>
     <script>
-        store("Current_page_type", PAGE_TYPES.TASK);
+        store("Current_page_type", PAGE_TYPES.THANK_YOU);
     </script>
-        
     
 </body>
 </html>

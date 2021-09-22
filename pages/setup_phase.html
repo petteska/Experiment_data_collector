@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="../general.css">
     <title>Setup phase</title>
 </head>
 <body>
@@ -13,13 +13,15 @@
             <h1>Before we start the experiment:</h1>
             <p>Please inform the researcher that are to be equipped with the sensors. When the researcher says so, press the "continue" button below.</p>
         </div>
-        
         <div class="input">
             <form>
                 <label for="setup_complete">I do now wear the necessary sensors and am ready to start the experiment.</label>
                 <br>
                 <input type="checkbox" id="setup_complete">
             </form>
+        </div>
+        <div class="error_message" id="sensor_consent">
+
         </div>
         <div class="navigation_buttons">
             <button onclick="navigate_to_previous_page()">Back</button>
@@ -29,7 +31,7 @@
     
     
 
-    <script src="utils.js"></script>
+    <script src="../utils.js"></script>
 
     <script>
         store("Current_page_type", PAGE_TYPES.SETUP);

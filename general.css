@@ -1,20 +1,42 @@
+body {
+    font-size: 100%;
+    background-color: #f1f1f1;
+}
+
 .content {
-    border: 3px solid green;
+    /* border: 3px solid green; */
     width: 75%;
     text-align: center;
     align-items: center;
     margin: auto;
+    background-color: #d1dfe2;
+    border-radius: 1%;
+    padding: 10px 30px 10px 30px;
+    /* box-shadow: 5px 5px 5px 5px #d1dfe2; */
+}
+
+.content div {
+    padding: 5px 5px 5px 5px;
 }
 
 .content img {
     width: 100%;
     margin-top: 10px;
-
 }
 
 .navigation_buttons {
     margin-top: 50px;
     margin-bottom: 50px;
+}
+
+.information h1 {
+    font-size: 3em;
+}
+
+.error_message {
+    color: red;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 /* .content input {

@@ -20,6 +20,12 @@
     width: 100%;
 }
 
+#SAM {
+    max-width: 1000px;
+    /* border: 3px solid blue; */
+    margin: auto;
+}
+
 .select_ten {
     /* border: 3px solid black; */
     width: 100%;

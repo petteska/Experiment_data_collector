@@ -6,27 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>self-assessment</title>
     <link rel="stylesheet" href="self_assessment.css">
-    <link rel="stylesheet" href="general.css">
+    <link rel="stylesheet" href="../general.css">
 </head>
 <body>
     <div class="content">
-        <h1>self-assessment</h1>
-        <p>Please fill out the following </p>
+        <h1>Self-assessment</h1>
+        <p>Please fill out the following based on how you feel now.</p>
+        <p>Please ask the researcher if you have any questions.</p>
     
         <div id="self-assessment">
             <div id="SAM">
                 <div id="valence">
-                    <img src="./images/SAM_valence.png" alt="SAM valence">
+                    <img src="../images/SAM_valence.png" alt="SAM valence">
                     <input type="range" min="0" max="10" value="5" class="slider" id="sam_valence">
                 </div>
                 
                 <div id="arousal">
-                    <img src="./images/SAM_arousal.png" alt="SAM arousal">
+                    <img src="../images/SAM_arousal.png" alt="SAM arousal">
                     <input type="range" min="0" max="10" value="5" class="slider" id="sam_arousal">
                 </div>
             </div>
             <div id="range">
-                <p>Evaluate how well you felt the emotion <span id="emotion">...</span> during the last experiment?</p>
+                <p id="emotion_scale_description"></p>
                 <!-- <input type="range" min="0" max="10" value="5" class="slider"> -->
                 <div class="select_ten">
                     <label> 0 <br>
@@ -73,22 +74,20 @@
 
 
 
-    <script src="utils.js"></script>
+    <script src="../utils.js"></script>
 
     <script>
-        store("Current_page_type",PAGE_TYPES.SELF_ASSESSMENT);
-        function next(){
-            console.log("valence: " + document.getElementById("slider_valence").value);
-            store("SAM_valence", document.getElementById("slider_valence").value);
-            store("SAM_arousal", document.getElementById("slider_arousal").value);
-
-            var elements = document.getElementsByName("select_ten_val");
-
-            store("Eval_scale", get_value_radio(elements));
-
-            // navigate_to_next_page();
+        if(get("Current_emotion") == EMOTIONS.BASELINE) {
+            document.getElementById("range").style.display = "none";
+        } else if(get("Previous_page_type") == PAGE_TYPES.TASK) {
+            console.log("test");
+            document.getElementById("emotion_scale_description").innerText = "Evaluate how well you feel the emotion " + "\"" + get("Current_emotion") + "\"" + " at the moment.";
+        } else if(get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION) {
+            document.getElementById("emotion_scale_description").innerText = "Evaluate how well you felt the emotion " + "\"" + get("Current_emotion") + "\"" + " during the writing session.";
+            
         }
-
+        // document.getElementById("emotion").innerText = "\"" + get("Current_emotion") + "\"";
+        store("Current_page_type",PAGE_TYPES.SELF_ASSESSMENT);
     </script>
     
 </body>
