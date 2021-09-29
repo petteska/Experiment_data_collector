@@ -10,7 +10,7 @@
         <div class="information">
             <h1>Welcome page</h1>
             <p>Hi! Welcome to this experiment. We are very happy that you chose to be a part of this.</p>
-            <p>Before we start the experiment, we would like that you answer some simple questions first. Press the button below to get started.</p>
+            <p>Before we start the experiment, we would like that you answer some simple questions. Press the button below to get started.</p>
         </div>
         <div class="navigation_buttons">
             <button onclick="navigate_to_next_page()">Continue</button>
@@ -21,6 +21,7 @@
     <script>
         init();
         store("Current_page_type", PAGE_TYPES.WELCOME);
+        enter_page();
     </script>
 </body>
 </html>

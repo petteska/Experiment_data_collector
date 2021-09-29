@@ -12,13 +12,13 @@
         <div class="information">
             <h1>Consent form</h1>
 
-            <iframe src="../forms/consent-form.pdf" width="100%" height="800px" frameborder="0"></iframe>
+            <iframe src="../forms/Consent_form_English.pdf" width="100%" height="800px" frameborder="0"></iframe>
             
         </div>
 
         <div class="input" id="consent_form">
             <form>
-                <label for="consent">I have read through the provided consent form and wants to continue with the experiment.</label>
+                <label for="consent">I have read the provided consent form, agree to the stated statements and want to continue with the experiment.</label>
                 <br>
                 <input type="checkbox" id="consent">
             </form>
@@ -37,6 +37,7 @@
 
     <script>
         store("Current_page_type", PAGE_TYPES.CONSENT_FORM);
+        enter_page();
     </script>
 </body>
 </html>

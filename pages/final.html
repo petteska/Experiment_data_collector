@@ -37,6 +37,8 @@
     
     <script src="../utils.js"></script>
     <script>
+        store("Current_page",PAGE_TYPES.FINAL);
+        enter_page();
         function finalize() {
             store("Subject_id", document.getElementById("subject_id").value);
             store("Comments", document.getElementById("comments").value)

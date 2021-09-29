@@ -12,24 +12,31 @@
         <div class="information">
             <h1>Baseline</h1>
             <p>
-                We want you to write about a normal day during your weak. 
+                We want you to write about a normal day during your weak.
                 <br> <br>
                 Write down simple facts like when you wake up, what is your morning routine, when you eat lunch etc.
                 <br> <br>
-                This is meant as a baseline for this experiment. Therefore we do not want you to write an emotional text, just simple facts.
+                This is meant as a baseline for this experiment. Therefore, we do not want you to write an emotional text; just simple facts.
                 <br> <br>
             </p>
         </div>
 
         <div class="session_information">
-            <p>You can write as long as you feel, but we will stop you after 10 minutes.</p>
-            <p>No one is going to read what you write. So do not let that hold you back!</p>
+            <p>You can write as long as you feel, but we will stop you after 4 minutes.</p>
+            <p>Note that no one is going to read what you write.</p>
             <p class="important_info">Please do not press "Continue" until you are finished with the task!</p>
         </div>
-        
+
         <div class="navigation_buttons">
             <button onclick="navigate_to_previous_page()">Back</button>
             <button onclick="navigate_to_next_page()">Continue</button>
+        </div>
+        
+        <div class="popup" >
+            <div class="popuptext" id="popup_countdown">
+                <h3>Time is running out!</h3>
+                <p id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds</p>
+            </div>
         </div>
     </div>
 
@@ -37,8 +44,9 @@
     <script>
         store("Current_page_type", PAGE_TYPES.EMOTION_ACTIVATION);
         store("Current_emotion",EMOTIONS.BASELINE);
+        enter_page();
     </script>
 
-    
+
 </body>
 </html>

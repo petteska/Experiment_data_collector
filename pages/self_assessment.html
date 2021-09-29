@@ -15,7 +15,13 @@
         <p>Please ask the researcher if you have any questions.</p>
     
         <div id="self-assessment">
+            <hr>
             <div id="SAM">
+                <p>
+                    Here you are supposed to chose the pictures that best describe how you feel. 
+                    <br>
+                    Drag the bar, so that it aligns with the chosen picture.
+                </p>
                 <div id="valence">
                     <img src="../images/SAM_valence.png" alt="SAM valence">
                     <input type="range" min="0" max="10" value="5" class="slider" id="sam_valence">
@@ -26,9 +32,9 @@
                     <input type="range" min="0" max="10" value="5" class="slider" id="sam_arousal">
                 </div>
             </div>
+            <!-- <hr>
             <div id="range">
                 <p id="emotion_scale_description"></p>
-                <!-- <input type="range" min="0" max="10" value="5" class="slider"> -->
                 <div class="select_ten">
                     <label> 0 <br>
                         <input type="radio" id="select_0" name="emotion_scale" value="0">
@@ -64,8 +70,9 @@
                         <input type="radio" id="select_10" name="emotion_scale" value="10">
                     </label>
                 </div>
-            </div>
+            </div> -->
         </div>
+        <hr>
         <div class="navigation_buttons">
             <button onclick="navigate_to_previous_page()">Back</button>
             <button onclick="navigate_to_next_page()">Continue</button>
@@ -77,17 +84,16 @@
     <script src="../utils.js"></script>
 
     <script>
-        if(get("Current_emotion") == EMOTIONS.BASELINE) {
-            document.getElementById("range").style.display = "none";
-        } else if(get("Previous_page_type") == PAGE_TYPES.TASK) {
-            console.log("test");
-            document.getElementById("emotion_scale_description").innerText = "Evaluate how well you feel the emotion " + "\"" + get("Current_emotion") + "\"" + " at the moment.";
-        } else if(get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION) {
-            document.getElementById("emotion_scale_description").innerText = "Evaluate how well you felt the emotion " + "\"" + get("Current_emotion") + "\"" + " during the writing session.";
-            
-        }
-        // document.getElementById("emotion").innerText = "\"" + get("Current_emotion") + "\"";
+        // if(get("Current_emotion") == EMOTIONS.BASELINE) {
+        //     document.getElementById("range").style.display = "none";
+        // } else if(get("Previous_page_type") == PAGE_TYPES.TASK) {
+        //     console.log("test");
+        //     document.getElementById("emotion_scale_description").innerText = "Evaluate how " + get("Current_emotion") + " you feel " + " at the moment.";
+        // } else if(get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION) {
+        //     document.getElementById("emotion_scale_description").innerText = "Evaluate how " + get("Current_emotion") + " you felt during the writing session.";
+        // }
         store("Current_page_type",PAGE_TYPES.SELF_ASSESSMENT);
+        enter_page();
     </script>
     
 </body>
