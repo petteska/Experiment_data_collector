@@ -17,10 +17,15 @@
         <div id="self-assessment">
             <hr>
             <div id="SAM">
-                <p>
+                <p lang="en">
                     Here you are supposed to chose the pictures that best describe how you feel. 
                     <br>
                     Drag the bar, so that it aligns with the chosen picture.
+                </p>
+                <p lang="no">
+                    Her skal du velge det bildet som beskriver best hvordan du føler akkurat nå.
+                    <br>
+                    Dra i baren sånn at den står under det valgte bildet.
                 </p>
                 <div id="valence">
                     <img src="../images/SAM_valence.png" alt="SAM valence">
@@ -32,50 +37,20 @@
                     <input type="range" min="0" max="10" value="5" class="slider" id="sam_arousal">
                 </div>
             </div>
-            <!-- <hr>
-            <div id="range">
-                <p id="emotion_scale_description"></p>
-                <div class="select_ten">
-                    <label> 0 <br>
-                        <input type="radio" id="select_0" name="emotion_scale" value="0">
-                    </label>
-                    <label> 1 <br>
-                        <input type="radio" id="select_1" name="emotion_scale" value="1">
-                    </label>
-                    <label> 2 <br>
-                        <input type="radio" id="select_2" name="emotion_scale" value="2">
-                    </label>
-                    <label> 3 <br>
-                        <input type="radio" id="select_3" name="emotion_scale" value="3">
-                    </label>
-                    <label> 4 <br>
-                        <input type="radio" id="select_4" name="emotion_scale" value="4">
-                    </label>
-                    <label> 5 <br>
-                        <input type="radio" id="select_5" name="emotion_scale" value="5">
-                    </label>
-                    <label> 6 <br>
-                        <input type="radio" id="select_6" name="emotion_scale" value="6">
-                    </label>
-                    <label> 7 <br>
-                        <input type="radio" id="select_7" name="emotion_scale" value="7">
-                    </label>
-                    <label> 8 <br>
-                        <input type="radio" id="select_8" name="emotion_scale" value="8">
-                    </label>
-                    <label> 9 <br>
-                        <input type="radio" id="select_9" name="emotion_scale" value="9">
-                    </label>
-                    <label> 10 <br>
-                        <input type="radio" id="select_10" name="emotion_scale" value="10">
-                    </label>
-                </div>
-            </div> -->
         </div>
         <hr>
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()">Back</button>
-            <button onclick="navigate_to_next_page()">Continue</button>
+            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
+            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+        </div>
+    </div>
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">Language</label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norwegian</option>
+            </select>
         </div>
     </div>
 
@@ -84,14 +59,6 @@
     <script src="../utils.js"></script>
 
     <script>
-        // if(get("Current_emotion") == EMOTIONS.BASELINE) {
-        //     document.getElementById("range").style.display = "none";
-        // } else if(get("Previous_page_type") == PAGE_TYPES.TASK) {
-        //     console.log("test");
-        //     document.getElementById("emotion_scale_description").innerText = "Evaluate how " + get("Current_emotion") + " you feel " + " at the moment.";
-        // } else if(get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION) {
-        //     document.getElementById("emotion_scale_description").innerText = "Evaluate how " + get("Current_emotion") + " you felt during the writing session.";
-        // }
         store("Current_page_type",PAGE_TYPES.SELF_ASSESSMENT);
         enter_page();
     </script>

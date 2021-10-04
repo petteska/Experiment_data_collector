@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Questionnaire</title>
     <link rel="stylesheet" href="../general.css">
     <link rel="stylesheet" href="questionnaire.css">
-    <!-- <link rel="stylesheet" href="index.css"> -->
 </head>
 <body>
     <div class="content">
         
         <div class="information">
-            <h1>Questionnaire</h1>
-            <p>Please answer the following questions as truefully as possible.</p>
+            <h1 lang="en">Questionnaire</h1>
+            <h1 lang="no">Spørreskjema</h1>
+
+            <p lang="en">Please answer the following questions as truefully as possible.</p>
+            <p lang="no">Vær vennlig og svar så ærlig som mulig på de følgende spørsmålene. Dersom du ikke ønsker å svare på ett eller flere av spørsmålene, kan du la dem stå ubesvarte.</p>
             
         </div>
         <hr>
         <div id="questionnaire">
             <div class="question">
-                <label for="age"> Age:</label>
+                <label lang="en" for="age"> Age:</label>
                     <input type="number" name="age" id="age" required>
             </div>
             
             <div class="question">
-                <label for="gender">Gender:</label> 
+                <label lang="en" for="gender">Gender:</label> 
                 <select name="gender" id="gender">
                     <option value="none"></option>
                     <option value="male">Male</option>
@@ -85,8 +87,17 @@
         </div>
 
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()">Back</button>
-            <button onclick="navigate_to_next_page()">Continue</button>
+            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
+            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+        </div>
+    </div>
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">Language</label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norwegian</option>
+            </select>
         </div>
     </div>
 

@@ -43,6 +43,7 @@ body {
     color: red;
     font-size: 1.1em;
     font-weight: bold;
+    display: none;
 }
 
 .popup {
@@ -94,3 +95,9 @@ body {
     from {opacity: 0;}
     to {opacity:1 ;}
   }
+
+
+body[lang="en"] [lang="no"],
+body[lang="no"] [lang="en"]{
+  display: none;
+}

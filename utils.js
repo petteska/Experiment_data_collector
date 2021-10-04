@@ -9,6 +9,11 @@ const EMOTIONS = {
     RELAXED: "relaxed",
 }
 
+const LANGUAGE = {
+    ENGLISH: "en",
+    NORWEGIAN: "no",
+}
+
 // const ACTIONS = {
 //     PRE_SELF_ASSESSMENT: "pre-self-assessment",
 //     EMOTION_ACTIVATION: "emotion-activation",
@@ -103,21 +108,36 @@ function make_stored_data_printable() {
 }
 
 //========================================
-//              Publisher and subscriber
+//              Language options
 //========================================
 
+function init_language_selector() {
+    let current_language = get("language");
+    if(current_language !== null) {
+        document.getElementById("language_select").value = current_language;
+        document.body.setAttribute('lang', current_language);
+    } else {
+        update_language();
+    }
+}
+
+function update_language() {
+    let new_language = document.getElementById("language_select").value;
+    store("language", new_language);
+    document.body.setAttribute('lang', new_language);
+}
 
 //========================================
 //              Helper functions
 //========================================
 
 function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
     
         // Generate random number
-        var j = Math.floor(Math.random() * (i + 1));
+        let j = Math.floor(Math.random() * (i + 1));
                     
-        var temp = array[i];
+        let temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
@@ -411,7 +431,11 @@ function start_experiment() {
 
 
 function enter_page() {
+    init_language_selector();
     switch(get("Current_page_type")) {
+        // case PAGE_TYPES.WELCOME:
+        //     update_language()
+        //     break;
         case PAGE_TYPES.SELF_ASSESSMENT:
             if (get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION){
                 store("Current_self_assessment_type", SELF_ASSESSMENT_TYPE.POST);
@@ -443,8 +467,7 @@ function leave_page() {
             if(document.getElementById("setup_complete").checked == true) {
                 start_experiment()// Change this
             } else {
-                let result = document.getElementById("sensor_consent");
-                result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
+                document.getElementsById("consent_form_error").classList.toggle("show");
                 console.warn("You have to check the box to continue");
                 return;
             }
@@ -508,8 +531,10 @@ function navigate_to_next_page() {
             if(consent.checked == true) {
                 location.href = get("Base_path") + "pages/" + 'questionnaire.html';
             } else {
-                let result = document.getElementById("consent_form_feedback");
-                result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
+                document.getElementById("consent_form_error").style.display = "block";
+                console.warn("You have to check the box to continue");
+                // let result = document.getElementById("consent_form_feedback");
+                // result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
             }
             break;
         case PAGE_TYPES.QUESTIONNAIRE:

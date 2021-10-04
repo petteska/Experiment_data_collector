@@ -20,6 +20,15 @@
             <button onclick="navigate_to_next_page()">Continue</button>
         </div>
     </div>
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">Language</label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norwegian</option>
+            </select>
+        </div>
+    </div>
 
     <script src="../utils.js"></script>
     <script>

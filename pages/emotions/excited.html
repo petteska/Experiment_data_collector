@@ -27,8 +27,25 @@
         </div>
         
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()">Back</button>
-            <button onclick="navigate_to_next_page()">Continue</button>
+            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
+            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+        </div>
+
+        <div class="popup" >
+            <div class="popuptext" id="popup_countdown">
+                <h3>Time is running out!</h3>
+                <p id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">Language</label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norwegian</option>
+            </select>
         </div>
     </div>
     
