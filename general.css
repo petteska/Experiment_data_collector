@@ -1,4 +1,5 @@
 body {
+  /* border: 3px solid yellow; */
     font-size: 120%;
     background-color: #f1f1f1;
     font-family: sans-serif;
@@ -18,7 +19,6 @@ body {
     background-color: #d1dfe2;
     border-radius: 1%;
     padding: 10px 30px 10px 30px;
-    /* box-shadow: 5px 5px 5px 5px #d1dfe2; */
 }
 
 .content div {
@@ -47,28 +47,31 @@ body {
 }
 
 .popup {
-    /* border: 3px solid black; */
+    /* border: 3px solid green; */
+    /* width: auto; */
     position: absolute;
-    z-index: 2;
+    text-align: center;
     align-items: center;
     margin: auto;
-    top: 200px;
-    width: 100%;
-    /* height: 100%; */
-    /* display: inline-block; */
-    /* cursor: pointer; */
+    /* background-color: #d1dfe2; */
+    border-radius: 1%;
+    padding: 10px 30px 10px 30px;
+    left: 10%;
+    right: 10%;
+    top: 5%;
+    bottom: 5%;
+    display: none;
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
 
-  /* The actual popup */
 .popup .popuptext {
-    /* border: 1px solid #d4c37c; */
+    border: 1px solid #d4c37c;
     box-shadow: 1px 1px 1px 1px #d4c37c;
-    visibility: hidden;
-    width: 30%;
+    width: 50%;
     margin: auto;
     background-color: #777b7e;
     color: #fff;
@@ -76,27 +79,30 @@ body {
     border-radius: 6px;
     position: relative;
     z-index: 1;
+    top: 20%;
+    bottom: 20%;
   }
 
   /* Toggle this class - hide and show the popup */
-.popup .show {
-    visibility: visible;
+.show {
+    /* visibility: visible; */
+    display: block;
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
   }
 
   /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
+    from {opacity: 0;}
     to {opacity: 1;}
   }
-  
+
   @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
   }
 
-
+/* Language */
 body[lang="en"] [lang="no"],
 body[lang="no"] [lang="en"]{
   display: none;

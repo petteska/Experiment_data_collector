@@ -10,21 +10,32 @@
 </head>
 <body>
     <div class="content">
-        <h1>Self-assessment</h1>
-        <p>Please fill out the following based on how you feel now.</p>
-        <p>Please ask the researcher if you have any questions.</p>
+        <h1 lang="en">Self-assessment</h1>
+        <h1 lang="no">Selvevaluering</h1>
+
+        <hr>
+
+        <p lang="en">
+            Please fill out the following based on how you feel now.
+            <br> <br>
+            Please ask the researcher if you have any questions.
+        </p>
+        <p lang="no">
+            Fyll ut følgende skjema basert på hvordan du føler deg akkurat nå.
+            <br> <br>
+            Spør den ansvarlige for forsøket om om du har noen spørsmål.
+        </p>
     
         <div id="self-assessment">
-            <hr>
             <div id="SAM">
                 <p lang="en">
                     Here you are supposed to chose the pictures that best describe how you feel. 
-                    <br>
+                    <br> <br>
                     Drag the bar, so that it aligns with the chosen picture.
                 </p>
                 <p lang="no">
                     Her skal du velge det bildet som beskriver best hvordan du føler akkurat nå.
-                    <br>
+                    <br> <br>
                     Dra i baren sånn at den står under det valgte bildet.
                 </p>
                 <div id="valence">
@@ -38,18 +49,26 @@
                 </div>
             </div>
         </div>
-        <hr>
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+            <button onclick="navigate_to_previous_page()"> 
+                <span lang="en">Back</span> 
+                <span lang="no">Tilbake</span> 
+            </button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span> 
+            </button>
         </div>
     </div>
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
-                <option value="no">Norwegian</option>
+                <option value="no">Norsk</option>
             </select>
         </div>
     </div>

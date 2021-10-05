@@ -9,28 +9,38 @@
         <div class="information">
             <h1 lang="en">Welcome page</h1>
             <h1 lang="no">Velkommen</h1>
-
-
             <p lang="en">
-                Hi! Welcome to this experiment. We are very happy that you chose to be a part of this. <br>
-                Before we start the experiment, we would like that you answer some simple questions. Press the button below to get started.
+                Hi! Welcome to this experiment. We are very happy that you chose to be a part of this. 
+                <br> <br>
+                Before we start the experiment, we would like that you answer some simple questions.
+                <br> <br>
+                Choose your prefered language in the menu below and press the button "Continue" to get started.
             </p>
 
             <p lang="no">
-                Hei! Velkommen til dette eksperimentet. Vi er veldig taknemmelige for at du har valgt å delta. <br>
-                Før vi starter ønsker vi å stille deg noen enkle spørsmål. Trykk knappen "Fortsett" for å begynne eksperimentet.
+                Hei! Velkommen til dette eksperimentet. Vi er veldig taknemmelige for at du har valgt å delta. 
+                <br> <br>
+                Før vi starter ønsker vi å stille deg noen enkle spørsmål. 
+                <br> <br>
+                Velg ønsket språk i menyen under og trykk "Fortsett" for å begynne eksperimentet.
             </p>
         </div>
         <div class="navigation_buttons">
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span></button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span>
+            </button>
         </div>
     </div>
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
-                <option value="no">Norwegian</option>
+                <option value="no">Norsk</option>
             </select>
         </div>
     </div>

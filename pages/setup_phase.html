@@ -10,30 +10,50 @@
 <body>
     <div class="content">
         <div class="information">
-            <h1>Before we start the experiment:</h1>
-            <p>Please inform the researcher that are to be equipped with the sensors. When the researcher says so, press the "continue" button below.</p>
+            <h1 lang="en">Before we start the experiment:</h1>
+            <h1 lang="no">Før vi starter eksperimentet:</h1>
+
+            <p lang="en">
+                Please inform the researcher that are to be equipped with the sensors. When the researcher says so, press the "continue" button below.
+            </p>
+            <p lang="no">
+                Vær vennlig og informer den ansvarlige for forsøket at du er klar for å få på sensorene. Når du har fått på deg utstyret og vedkommende sier at du er klar, kan du trykke på "Fortsett".
+            </p>
         </div>
         <div class="input">
             <form>
-                <label for="setup_complete">I do now wear the necessary sensors and am ready to start the experiment.</label>
+                <label for="setup_complete">
+                    <span lang="en">I do now wear the necessary sensors and am ready to start the experiment.</span> 
+                    <span lang="no">Jeg har nå på meg nødvendig utstyr og har fått klarsignal for å fortsette eksperimentet.</span> 
+                </label>
                 <br>
                 <input type="checkbox" id="setup_complete">
             </form>
         </div>
-        <div class="error_message" id="sensor_consent">
-
+        <div class="error_message" id="setup_complete_error">
+            <p lang="en">You have to check the box to continue!</p>
+            <p lang="no">Du må huke av boksen for å fortsette!</p>
         </div>
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+            <button onclick="navigate_to_previous_page()"> 
+                <span lang="en">Back</span> 
+                <span lang="no">Tilbake</span> 
+            </button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span> 
+            </button>
         </div>
     </div>
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
-                <option value="no">Norwegian</option>
+                <option value="no">Norsk</option>
             </select>
         </div>
     </div>

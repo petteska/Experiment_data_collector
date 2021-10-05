@@ -14,12 +14,6 @@ const LANGUAGE = {
     NORWEGIAN: "no",
 }
 
-// const ACTIONS = {
-//     PRE_SELF_ASSESSMENT: "pre-self-assessment",
-//     EMOTION_ACTIVATION: "emotion-activation",
-//     POST_SELF_ASSESSMENT: "post-self-assessment",
-// }
-
 const PAGE_TYPES = {
     WELCOME: "welcome",
     CONSENT_FORM: "consent-form",
@@ -50,15 +44,17 @@ const SELF_ASSESSMENT_TYPE = {
 //========================================
 
 function clear() {
-    sessionStorage.clear();
+    // sessionStorage.clear();
+    localStorage.clear();
 }
 
 function store(name,data) {
-    sessionStorage.setItem(name, JSON.stringify(data));
+    // sessionStorage.setItem(name, JSON.stringify(data));
+    localStorage.setItem(name, JSON.stringify(data));
 }
 
 function get(name) {
-    return JSON.parse(sessionStorage.getItem(name));
+    return JSON.parse(localStorage.getItem(name));
     
 }
 
@@ -164,48 +160,18 @@ function get_time_string() {
 }
 
 
-// Timer
-function start_timer(duration) {
-    //duration in seconds
-    let timer = {
-        active: true,
-        duration: duration*1000,
-        start_time: Date.now(),
-        end_time: "",
-    }
-    store("Timer", timer);
-
-}
-
-function stop_timer() {
-    let timer = get("Timer");
-    if(timer === null) {
-        console.error("stop_timer() failed. No timer was started");
-        return;
-    } else {
-        timer.end_time = get_time();
-    }
-    store("Timer", timer)
-    return;
-}
-
-function poll_time_left() {
-    let timer = get("Timer");
-
-    if(timer === null) {
-        console.error("stop_timer() failed. No timer was started");
-        return null;
-    }
-
-    return (timer.start_time + timer.duration - Date.now())/1000;
-}
-
-
+//========================================
+//              Timer
+//========================================
 
 function start_page_timer(duration) {
     console.log("Timer duration:" + duration + "s");
+
     let current_page = get("Current_page");
-    let popup_timer = window.setTimeout(popup, duration*1000);
+
+    let popup_timer = window.setTimeout(()=>{start_countdown_popup(10)}, duration*1000);
+
+
     let check_button_push = window.setInterval(()=>{
         if(get("Current_page") != current_page){
             window.clearTimeout(popup_timer);
@@ -214,14 +180,12 @@ function start_page_timer(duration) {
     }, 100);
 }
 
-function popup(){
-    let time_left = 5; //Count down for 5 seconds.
+function start_countdown_popup(time_left){
     let time_left_print = document.getElementById("time_left");
 
     let current_page = get("Current_page");
     
-    document.getElementById("popup_countdown").classList.toggle("show");
-    console.log("popup!!");
+    show_popup("popup_countdown");
 
     let count_down = window.setInterval(()=>{
         if(get("Current_page") != current_page){
@@ -229,12 +193,28 @@ function popup(){
         }
         time_left_print.innerText = time_left--;
         if(time_left < 0) {
-            window.clearInterval(count_down); navigate_to_next_page();
+            window.clearInterval(count_down); 
+            navigate_to_next_page();
+            console.log("coundown done!")
         }
     },1000);    
 
-    console.log("coundown done!")
     
+}
+
+//========================================
+//              Popup boxes
+//========================================
+
+function show_popup(id) {
+    // document.getElementById(id).style.display="block";
+    document.getElementById(id).classList.add("show");
+    
+}
+
+function hide_popup(id) {
+    // document.getElementById(id).style.display="none"
+    document.getElementById(id).classList.remove("show");
 }
 
 
@@ -464,25 +444,17 @@ function leave_page() {
             store_questionnaire();
             break;
         case PAGE_TYPES.SETUP:
-            if(document.getElementById("setup_complete").checked == true) {
-                start_experiment()// Change this
-            } else {
-                document.getElementsById("consent_form_error").classList.toggle("show");
-                console.warn("You have to check the box to continue");
-                return;
-            }
+            start_experiment()// Change this
             break;
         case PAGE_TYPES.SELF_ASSESSMENT:
             store_self_assessment_form(get("Current_emotion"), get("Current_self_assessment_type"));
-            
             break;
         case PAGE_TYPES.EMOTION_ACTIVATION:
             store_end_time(get("Current_emotion"));
             store("Previous_emotion", get("Current_emotion"));
             break;
-        case PAGE_TYPES.TASK:
-
-
+        default:
+            break;
     }
     window.clearTimeout()
     store("Previous_page_type", get("Current_page_type"));
@@ -521,7 +493,6 @@ function get_next_task_in_list() {
 
 
 function navigate_to_next_page() {
-    leave_page();
     switch(get("Current_page_type")) {
         case PAGE_TYPES.WELCOME:
             location.href= get("Base_path") + "pages/" + "consent_form.html";
@@ -533,8 +504,7 @@ function navigate_to_next_page() {
             } else {
                 document.getElementById("consent_form_error").style.display = "block";
                 console.warn("You have to check the box to continue");
-                // let result = document.getElementById("consent_form_feedback");
-                // result.innerText = "You cannot continue before you have checked the consent form. Talk to the examiner if you have any questions.";
+                return;
             }
             break;
         case PAGE_TYPES.QUESTIONNAIRE:
@@ -543,6 +513,9 @@ function navigate_to_next_page() {
         case PAGE_TYPES.SETUP:
             if(document.getElementById("setup_complete").checked == true) {
                 location.href=get("Base_path") + "pages/" + "emotions/baseline.html";
+            } else {
+                document.getElementById("setup_complete_error").style.display = "block";
+                return;
             }
             break;
         case PAGE_TYPES.SELF_ASSESSMENT:
@@ -565,6 +538,7 @@ function navigate_to_next_page() {
                         default:
                             // This happens when we finish the task!
                             location.href = get("Base_path") + "pages/" + "finished.html";
+                            break;
                     }
                     break;
 
@@ -588,7 +562,7 @@ function navigate_to_next_page() {
                             break;
                         default:
                             location.href= get("Base_path") + "pages/" + "./final.html";
-                            return;
+                            break;
                     }
                     break;
             }
@@ -606,6 +580,7 @@ function navigate_to_next_page() {
             console.error("Got " + get("Current_page_type"));
             return;         
     }
+    leave_page();
 }
 
 

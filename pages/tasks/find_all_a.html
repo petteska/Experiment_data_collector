@@ -10,19 +10,37 @@
 <body>
     <div class="content">
         <div class="information">
-            <h1>Pause Task - Find all a's</h1>
-            <p>
+            <h1 lang="en">Pause Task - Find all a's</h1>
+            <h1 lang="no">Pauseoppgave - Finn alle a-er</h1>
+            
+            <hr>
+
+            <p lang="en">
                 Now it is time to pause for a second and perform a simple distractive task.
                 <br> <br>
                 Talk to the researcher if you have not been given the material for the tasks yet.
                 <br> <br>
                 This session will last for 4 minutes. You will be notified when the time is up.
             </p>
-            <div class="task_description">
-            <h3>Task-description:</h3>
-            <p>
-                In this task, you are to mark all the a's in this dummy text.
+            <p lang="no">
+                Nå er det på tide å ta en liten pause og utføre en enkel distraksjonsoppgave.
+                <br> <br>
+                Snakk med den som er ansvarlig for eksperimentet om du ikke har fått utdelt oppgaven enda.
+                <br> <br>
+                Denne sesjonen vil vare i 4 minutter. Prøv å slappe av så godt det lar seg gjøre mens du utfører oppgavene og ikke stress med å bli ferdig.
+                <br> <br>
+                Du vil få beskjed når tiden er ute.
             </p>
+            <div class="task_description">
+                <h3 lang="en">Task-description:</h3>
+                <h3 lang="no">Oppgavebeskrivelse:</h3>
+                
+                <p lang="en">
+                    In this task, you are to mark all the a's in this dummy text.
+                </p>
+                <p lang="no">
+                    I denne oppgaven skal du markere alle a-ene i eksempelteksten.
+                </p>
             </div>
         </div>
         <div class="navigation_buttons">
@@ -32,15 +50,21 @@
 
         <div class="popup" >
             <div class="popuptext" id="popup_countdown">
-                <h3>Time is running out!</h3>
-                <p id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds</p>
+                <h3 lang="en">Time is running out!</h3>
+                <h3 lang="no">Tiden løper ut!</h3>
+
+                <p lang="en" id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds.</p>
+                <p lang="no" id="popup_msg">Du vil bli sendt til neste side om <span id="time_left"></span> sekunder.</p>
             </div>
         </div>
     </div>
 
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
                 <option value="no">Norwegian</option>

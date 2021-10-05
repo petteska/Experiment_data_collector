@@ -20,8 +20,8 @@
 
         <div class="input" id="consent_form">
             <form>
-                <label lang="en" for="consent">I have read the provided consent form, agree to the stated statements and wish to continue with the experiment.</label>
-                <label lang="no" for="consent">Jeg bekrefter at jeg har lest samtykkeskjemaet, er enig i påstandene og ønsker å fortsette eksperimentet.</label>
+                <label lang="en" for="consent">I have read the provided consent form, agree to the stated statements in the declaration of consent and wish to continue with the experiment.</label>
+                <label lang="no" for="consent">Jeg bekrefter at jeg har lest samtykkeskjemaet, er enig i påstandene i samtykkeerklæringen og ønsker å fortsette eksperimentet.</label>
                 <br>
                 <input type="checkbox" id="consent">
             </form>
@@ -39,7 +39,10 @@
     </div>
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
                 <option value="no">Norwegian</option>

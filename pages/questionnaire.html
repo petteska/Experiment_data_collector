@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Questionnaire</title>
+    <title lang="en">Questionnaire</title>
     <link rel="stylesheet" href="../general.css">
     <link rel="stylesheet" href="questionnaire.css">
 </head>
@@ -12,39 +12,79 @@
             <h1 lang="en">Questionnaire</h1>
             <h1 lang="no">Spørreskjema</h1>
 
-            <p lang="en">Please answer the following questions as truefully as possible.</p>
-            <p lang="no">Vær vennlig og svar så ærlig som mulig på de følgende spørsmålene. Dersom du ikke ønsker å svare på ett eller flere av spørsmålene, kan du la dem stå ubesvarte.</p>
+            <p lang="en">
+                Please answer the following questions as truefully as possible.
+                <br>
+                If you do not want to answer one or more of the questions, please leave them blank.
+            </p>
+            <p lang="no">
+                Vær vennlig og svar så ærlig som mulig på de følgende spørsmålene. 
+                <br>
+                Dersom du ikke ønsker å svare på ett eller flere av spørsmålene, kan du la dem stå ubesvarte.
+            </p>
             
         </div>
         <hr>
         <div id="questionnaire">
             <div class="question">
-                <label lang="en" for="age"> Age:</label>
+                <label for="age"> 
+                    <span lang="en">Age:</span>
+                    <span lang="no">Alder:</span>
+                </label>
                     <input type="number" name="age" id="age" required>
             </div>
             
             <div class="question">
-                <label lang="en" for="gender">Gender:</label> 
-                <select name="gender" id="gender">
+                <label for="gender">
+                    <span lang="en">Gender:</span>
+                    <span lang="no">Kjønn:</span>
+                </label> 
+
+                <select lang="en" name="gender" id="gender">
                     <option value="none"></option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
+                <select lang="no" name="gender" id="gender">
+                    <option value="none"></option>
+                    <option value="male">Mann</option>
+                    <option value="female">Dame</option>
+                    <option value="other">Annet</option>
+                </select>
             </div>
 
             <div class="question">
-                <label for="ate">When was the last time you ate?</label>
+                <label for="ate">
+                    <span lang="en">When was the last time you ate?</span>
+                    <span lang="no">Når spiste du sist?</span>    
+                </label>
                 <input type="time" name="ate" id="ate" required>
             </div>
             
             <div class="question">
-                <label for="sleep">How long did you sleep last night?</label>
-                <input type="text" name="sleep" id="sleep" placeholder="hh:mm" required>
+                <label for="sleep">
+                    <span lang="en">How long did you sleep last night?</span>
+                    <span lang="no">Hvor lenge sov du i natt?</span>
+                </label>
+
+                <input lang="en" class="input_time" type="text" name="sleep" id="sleep" placeholder="hh:mm">
+                <input lang="no" class="input_time" type="text" name="sleep" id="sleep" placeholder="tt:mm">
             </div>
             
             <div class="question">
-                <label for="comfort_physic"> How physically comfortable do you feel? <br> (1 = Very uncomfortable, 5 = Very comfortable)</label>
+                <label for="comfort_physic">
+                    <span lang="en">
+                        How physically comfortable do you feel? 
+                        <br> 
+                        (1 = Very uncomfortable, 5 = Very comfortable)
+                    </span>
+                    <span lang="no"> 
+                        Hvor fysisk komfortable føler du deg?
+                        <br> 
+                        (1 = Veldig ukomfortabel, 5 = Veldig komfortabel)
+                    </span>
+                </label>
                 <div class="radio_select" id="comfort_physic">
                     <label for="comfort_1"> 1 <br>
                         <input type="radio" name="comfort_physic" id="comfort_1" value="1">
@@ -65,7 +105,18 @@
             </div> 
             
             <div class="question">
-                <label for="comfort_social"> How socially comfortable do you feel? <br> (1 = Very uncomfortable, 5 = Very comfortable)</label>
+                <label for="comfort_social">
+                    <span lang="en">
+                        How socially comfortable do you feel? 
+                        <br> 
+                        (1 = Very uncomfortable, 5 = Very comfortable)
+                    </span>
+                    <span lang="no">
+                        Hvor sosialt komfortabel føler du deg?
+                        <br> 
+                        (1 = Veldig ukomfortabel, 5 = Veldig komfortabel)
+                    </span>
+                </label>
                 <div class="radio_select" id="comfort_social">
                     <label for="comfort_1"> 1 <br>
                         <input type="radio" name="comfort_social" id="comfort_1" value="1">
@@ -87,16 +138,26 @@
         </div>
 
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+            <button onclick="navigate_to_previous_page()"> 
+                <span lang="en">Back</span> 
+                <span lang="no">Tilbake</span> 
+            </button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span> 
+            </button>
         </div>
     </div>
+
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
-                <option value="no">Norwegian</option>
+                <option value="no">Norsk</option>
             </select>
         </div>
     </div>

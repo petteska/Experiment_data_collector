@@ -10,8 +10,12 @@
 <body>
     <div class="content">
         <div class="information">
-            <h1>Baseline</h1>
-            <p>
+            <h1 lang="en">Baseline</h1>
+            <h1 lang="no">Grunnfølelse</h1>
+            
+            <hr>
+
+            <p lang="en">
                 We want you to write about a normal day during your weak.
                 <br> <br>
                 Write down simple facts like when you wake up, what is your morning routine, when you eat lunch etc.
@@ -19,30 +23,74 @@
                 This is meant as a baseline for this experiment. Therefore, we do not want you to write an emotional text; just simple facts.
                 <br> <br>
             </p>
+            <p lang="no">
+                Vi ønsker at du skal skrive om en helt normal dag i ditt liv.
+                <br> <br>
+                Skriv ned enkle fakta som når du står opp, hva slags morgenrutiner du har, når du spiser lunsh osv.
+                <br> <br>
+                Dette skal brukes som en basis for dette eksperimentet. Derfor skal du ikke skrive en emosjonell tekst, men kun enkle fakta.
+                <br> <br>
+            </p>
         </div>
 
         <div class="session_information">
-            <p>You can write as long as you feel, but we will stop you after 4 minutes.</p>
-            <p>Note that no one is going to read what you write.</p>
-            <p class="important_info">Please do not press "Continue" until you are finished with the task!</p>
+            <p lang="en">
+                You can write as long as you feel, but we will stop you after 4 minutes.
+                <br> <br>
+                You will be notified when the time is up, and will automatically be lead to the next page of the experiment.
+                <br> <br>
+                If you want to quit earlier, just press the button "Continue".
+                <br> <br>
+                NB! No one is going to read what you write.
+                <br> <br>
+            </p>
+            <p lang="no">
+                Du står fritt til å skrive så lenge du vil, men vi vill stoppe deg etter 4 minutter.
+                <br> <br>
+                Du vil få beskjed når tiden er gått ut og vil automatisk bli ført videre i eksperimentet.
+                <br> <br>
+                Om du ønsker å stoppe tidligere, kan du trykke på knappen "Fortsett".
+                <br> <br>
+                NB! Ingen kommer til å lese det du skriver. 
+                <br> <br>
+            </p>
+
+            <p lang="en" class="important_info">
+                Do not press "Continue" until you are finished with the task!
+            </p>
+            <p lang="no" class="important_info">
+                Ikke trykk "Fortsett" før du er ferdig med oppgaven!
+            </p>
         </div>
 
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+            <button onclick="navigate_to_previous_page()"> 
+                <span lang="en">Back</span> 
+                <span lang="no">Tilbake</span> 
+            </button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span> 
+            </button>
         </div>
         
         <div class="popup" >
             <div class="popuptext" id="popup_countdown">
-                <h3>Time is running out!</h3>
-                <p id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds</p>
+                <h3 lang="en">Time is running out!</h3>
+                <h3 lang="no">Tiden løper ut!</h3>
+
+                <p lang="en" id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds.</p>
+                <p lang="no" id="popup_msg">Du vil bli sendt til neste side om <span id="time_left"></span> sekunder.</p>
             </div>
         </div>
     </div>
 
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
                 <option value="no">Norwegian</option>

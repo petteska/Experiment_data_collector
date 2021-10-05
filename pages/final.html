@@ -11,34 +11,87 @@
 <body>
     <div class="content">
         <div>
-            <h1>This is the final page of the experiment!</h1>
-            <p>
+            <h1 lang="en">This is the final page of the experiment!</h1>
+            <h1 lang="no">Dette er siste side av eksperimentet</h1>
 
+            <p lang="en">
+                This page is for the reasearcher.
+                <br>
+                Here you should register an unique ID for the participant, as well as writing down some comments about the experiment. 
+                <br>
+                Please comment any possible disturbances or irregularities that might have affected the results.
+            </p>
+
+            <p lang="no">
+                Denne siden er ment for den som er ansvarlig for gjennomføringen av eksperimentet.
+                <br>
+                Her skal du registrere en unik ID for deltakeren, samt skrive ned kommentarer du måtte ha om eksperimentet. 
+                <br>
+                Skriv ned eventuelle forstyrrelser eller uregelmessigheter som kan ha påvirket resultatet.
             </p>
         </div>
         <div>
             <div class="question">
                 <form>
-                    <label for="subject_id">Enter subject id:</label>
+                    <label for="subject_id">
+                        <span lang="en">Enter subject id:</span>
+                        <span lang="no">Skriv inn deltaker ID:</span>
+                    </label>
                     <input type="text" name="subject_id" id="subject_id">
                 </form>
             </div>
             <div class="question">
-                <label for="comments">Do you have any comments about the experiment? <br></label>
+                <label for="comments">
+                    <span lang="en">Do you have any comments about the experiment?</span>
+                    <span lang="no">Har du noen kommentarer om eksperimentet?</span>
+                    <br>    
+                </label>
                 <textarea name="comments" id="comments" cols="30" rows="10" placeholder="Write your comment here!"></textarea>
             </div>
         </div>
+
+        <div class="popup" id="new_experiment_popup">
+            <div class="popuptext">
+                <h3 lang="en">Are you sure you want to start a new experiment?</h3>
+                <h3 lang="no">Er du sikker på at du vil starte et nytt eksperiment?</h3>
+
+                <p lang="en" id="popup_msg">When starting a new experiment, all the data from the previous session will be erased. If you have not saved the data, please do so before you continue.</p>
+                <p lang="no" id="popup_msg">Når du starter et nytt eksperiment vil all tidligere data bli slettet. Om du ikke har lagret dataen fra forrige gjennomgang, anbefales det at du gjør dette før du fortsetter.</p>
+            
+                <div class="navigation_buttons">
+                    <button onclick="hide_popup('new_experiment_popup')">
+                        <span lang="en">Cancel</span>
+                        <span lang="no">Avbryt</span>
+                    </button>
+                    <button onclick="start_new_experiment()">
+                        <span lang="en">Start new experiment</span>
+                        <span lang="no">Start nytt eksperiment</span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
         <div class="navigation_buttons">
-            <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
-            <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
+            <button onclick="finalize()"> 
+                <span lang="en">Download data</span> 
+                <span lang="no">Last ned data</span> 
+            </button>
+            <button onclick="show_popup('new_experiment_popup')"> 
+                <span lang="en">Start new experiment</span> 
+                <span lang="no">Start nytt eksperiment</span> 
+            </button>
         </div>
     </div>
     <div class="settings">
         <div class="language_select">
-            <label for="language_select">Language</label>
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
-                <option value="no">Norwegian</option>
+                <option value="no">Norsk</option>
             </select>
         </div>
     </div>
