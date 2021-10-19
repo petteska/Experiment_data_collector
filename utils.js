@@ -313,8 +313,6 @@ function store_self_assessment_form(emotion, self_assessment_type) {
 function store_start_time(emotion) {
     var emotion_data = get("Emotion_data");
     emotion_data[emotion].emotion_activation.start_time = get_time_string();
-    console.log(get_time_string());
-    console.log(emotion_data);
     store("Emotion_data",emotion_data);
     return;
 }
