@@ -63,26 +63,54 @@
             </div>
             
             <div class="question">
-                <label for="sleep">
-                    <span lang="en">How long did you sleep last night?</span>
-                    <span lang="no">Hvor lenge sov du i natt?</span>
+                <label for="sleep_quality">
+                    <span lang="en">
+                        How would you rate the quality of your sleep last night?
+                        <br>
+                        (1 = Very bad, 6 = Very well)
+                    </span>
+                    <span lang="no">
+                        Hvor godt sov du i natt?
+                        <br>
+                        (1 = Veldig dårlig, 6 = Veldig bra)
+                    </span>
                 </label>
+                <div class="radio_select" id="sleep_quality">
+                    <label for="comfort_1"> 1 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_1" value="1">
+                    </label>
+                    <label for="comfort_2"> 2 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_2" value="2">
+                    </label>
+                    <label for="comfort_3"> 3 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_3" value="3">
+                    </label>
+                    <label for="comfort_4"> 4 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_4" value="4">
+                    </label>
+                    <label for="comfort_5"> 5 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_5" value="5">
+                    </label>
+                    <label for="comfort_6"> 6 <br>
+                        <input type="radio" name="sleep_quality" id="comfort_6" value="6">
+                    </label>
+                </div>
 
-                <input lang="en" class="input_time" type="text" name="sleep" id="sleep" placeholder="hh:mm">
-                <input lang="no" class="input_time" type="text" name="sleep" id="sleep" placeholder="tt:mm">
+                <!-- <input lang="en" class="input_time" type="text" name="sleep" id="sleep" placeholder="hh:mm">
+                <input lang="no" class="input_time" type="text" name="sleep" id="sleep" placeholder="tt:mm"> -->
             </div>
             
             <div class="question">
                 <label for="comfort_physic">
                     <span lang="en">
-                        How physically comfortable do you feel? 
+                        How physically comfortable do you feel right now?
                         <br> 
-                        (1 = Very uncomfortable, 5 = Very comfortable)
+                        (1 = Very uncomfortable, 6 = Very comfortable)
                     </span>
                     <span lang="no"> 
-                        Hvor fysisk komfortable føler du deg?
+                        Hvordan vil du rangere din fysiske komfort akkurat nå?
                         <br> 
-                        (1 = Veldig ukomfortabel, 5 = Veldig komfortabel)
+                        (1 = Veldig ukomfortabel, 6 = Veldig komfortabel)
                     </span>
                 </label>
                 <div class="radio_select" id="comfort_physic">
@@ -101,20 +129,23 @@
                     <label for="comfort_5"> 5 <br>
                         <input type="radio" name="comfort_physic" id="comfort_5" value="5">
                     </label>
+                    <label for="comfort_6"> 6 <br>
+                        <input type="radio" name="comfort_physic" id="comfort_6" value="6">
+                    </label>
                 </div>
             </div> 
             
             <div class="question">
                 <label for="comfort_social">
                     <span lang="en">
-                        How socially comfortable do you feel? 
+                        How comfortable do you feel in situations like this? 
                         <br> 
-                        (1 = Very uncomfortable, 5 = Very comfortable)
+                        (1 = Very uncomfortable, 6 = Very comfortable)
                     </span>
                     <span lang="no">
-                        Hvor sosialt komfortabel føler du deg?
+                        Hvor komfortabel føler du deg i denne situasjonen?
                         <br> 
-                        (1 = Veldig ukomfortabel, 5 = Veldig komfortabel)
+                        (1 = Veldig ukomfortabel, 6 = Veldig komfortabel)
                     </span>
                 </label>
                 <div class="radio_select" id="comfort_social">
@@ -132,6 +163,9 @@
                     </label>
                     <label for="comfort_5"> 5 <br>
                         <input type="radio" name="comfort_social" id="comfort_5" value="5">
+                    </label>
+                    <label for="comfort_6"> 6 <br>
+                        <input type="radio" name="comfort_social" id="comfort_6" value="6">
                     </label>
                 </div>
             </div>

@@ -108,12 +108,8 @@
             const data_JSON = convert_stored_data_to_JSON();
             const data_printable = make_stored_data_printable();
 
-            download_file(String(document.getElementById("subject_id").value) + "_JSON", data_JSON);
-            download_file(String(document.getElementById("subject_id").value) + "_readable", data_printable);
-        }
-
-        function start_new_experiment() {
-            location.href='../index.html'
+            // download_file(String(document.getElementById("subject_id").value) + "_JSON", data_JSON);
+            download_file(String(document.getElementById("subject_id").value) + "_data", data_printable);
         }
     </script>
 </body>

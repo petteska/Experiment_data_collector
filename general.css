@@ -4,6 +4,10 @@ body {
     background-color: #f1f1f1;
     font-family: sans-serif;
 }
+button {
+  font-size: 100%;
+  font-family: sans-serif;
+}
 
 .important_info {
     font-weight: bold;
@@ -90,6 +94,10 @@ body {
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
   }
+
+.hidden {
+  display: none;
+}
 
   /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {

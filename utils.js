@@ -15,6 +15,7 @@ const LANGUAGE = {
 }
 
 const PAGE_TYPES = {
+    START: "start",
     WELCOME: "welcome",
     CONSENT_FORM: "consent-form",
     QUESTIONNAIRE: "questionnaire",
@@ -43,9 +44,22 @@ const SELF_ASSESSMENT_TYPE = {
 //              Storage
 //========================================
 
-function clear() {
-    // sessionStorage.clear();
+function clear_storage(keep) {
+    // keep is a list of elements to keep in storage
+    var data = [];
+    for (var i = 0; i < keep.length; i++) {
+        try {
+            data.push(get(keep[i]))
+            console.log("saving " + keep[i] + " with data " + get(keep[i]));
+        } catch {
+            console.log("element " + keep[i] + "not in storage");
+        }
+    }
     localStorage.clear();
+
+    for (var i = 0; i < keep.length; i++) {
+        store(keep[i],data[i]);
+    }
 }
 
 function store(name,data) {
@@ -76,6 +90,7 @@ function download_file(filename, data) {
     newLink.click(); 
 }
 
+
 function convert_stored_data_to_JSON() {
     const Experiment_data = {
         id: get("Subject_id"),
@@ -98,7 +113,8 @@ function make_stored_data_printable() {
     "Start time: " + get("Start_time") + "\r\n" +
     "Emotion order: " + "[" + get("Emotion_list") + "]" + "\r\n" + 
     "Task order: " + "[" + get("Task_list") + "]" + "\r\n" +
-    "Comments: " + get("Comments");
+    "Comments: " + get("Comments") + "\r\n" +
+    "JSON-data: " + "\r\n" + convert_stored_data_to_JSON();
 
     return data;
 }
@@ -157,6 +173,14 @@ function get_time_string() {
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     return time;
+}
+
+function change_text_element(id, new_text) {
+    try {
+        document.getElementById(id).innerText = new_text;
+    } catch(error) {
+        console.log(error);
+    }
 }
 
 
@@ -231,15 +255,16 @@ function store_consent_form() {
 
 // Questionnaire
 function store_questionnaire() {
-    var comfort_physic_elements = document.getElementsByName("comfort_physic");
-    var comfort_social_elements = document.getElementsByName("comfort_social");
+    let comfort_physic_elements = document.getElementsByName("comfort_physic");
+    let comfort_social_elements = document.getElementsByName("comfort_social");
+    let sleep_quality_elements = document.getElementsByName("sleep_quality");
 
 
     var questionnaire_answers = {
         age: document.getElementById("age").value,
         gender: document.getElementById("gender").value,
         last_time_ate:  document.getElementById("ate").value,
-        sleep_duration: document.getElementById("sleep").value,
+        sleep_quality: get_value_radio(sleep_quality_elements),
         comfort_physic: get_value_radio(comfort_physic_elements),
         comfort_social: get_value_radio(comfort_social_elements),
     }
@@ -250,13 +275,11 @@ function store_questionnaire() {
 
 // Self-assessment form
 function get_self_assessment_result() {
-    // var emotion_scale_elements = document.getElementsByName("emotion_scale");
     var result = {
         SAM: {
             valence: document.getElementById("sam_valence").value,
             arousal: document.getElementById("sam_arousal").value,
         },
-        // emotion_scale: get_value_radio(emotion_scale_elements),
     }
 
     return result;
@@ -307,13 +330,18 @@ function store_end_time(emotion) {
 
 // Page specific 
 function init() {
-    sessionStorage.clear();
     var location = window.location.href;
-    var directoryPath = location.substring(0, location.lastIndexOf("/")+1);
-    store("Base_path", directoryPath);
+    var directory_path = location.substring(0, location.lastIndexOf("/") + 1);
+    store("Base_path", directory_path);
 }
 
-function start_experiment() {
+function start_new_experiment() {
+    // Navigate to welcome page
+    navigate_to_page(PAGE_TYPES.WELCOME);
+    
+    // Clear previous storage
+    clear_storage(keep = ["Base_path"]);
+
     // Register time and date
     var today = new Date();
     var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -409,30 +437,95 @@ function start_experiment() {
     store("Emotion_data",emotion_data);
 }
 
+function continue_from_storage() {
+    try {
+        var last_recorded_page_type = get("Last_recorded_page_type");
+        console.log(last_recorded_page_type);
+        switch (last_recorded_page_type) {
+            case PAGE_TYPES.EMOTION_ACTIVATION:
+                navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, get("Current_emotion"));
+                break;
+            
+            case PAGE_TYPES.TASK:
+                navigate_to_page(PAGE_TYPES.TASK, get("Current_task"));
+                console.log(get("Current_task"));
+                break;
+
+            default:
+                navigate_to_page(last_recorded_page_type);
+                break;
+
+        }
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;        
+    }
+}
 
 function enter_page() {
+    detect_closing_tab();
+
+    var should_update = !(get("Last_recorded_page_type") === get("Current_page_type"));
+    if(should_update) {
+        console.log("page will be updated");
+    } else {
+        console.log("Page was reloaded.");
+    }
+    
     init_language_selector();
+
     switch(get("Current_page_type")) {
+        case PAGE_TYPES.START:
+            if (get("Date") !== NaN){
+                document.getElementById("prev_session_found").style.display = "block";
+                console.log("Previous session found.");
+                change_text_element("prev_session_date",get("Date"));
+                change_text_element("prev_session_time",get("Start_time"));
+                change_text_element("prev_session_page", get("Last_recorded_page_type"));
+                
+            } else {
+                document.getElementById("prev_session_not_found").style.display = "block";
+                init();
+
+            }
+            break;
+
         // case PAGE_TYPES.WELCOME:
         //     update_language()
         //     break;
+
         case PAGE_TYPES.SELF_ASSESSMENT:
             if (get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION){
                 store("Current_self_assessment_type", SELF_ASSESSMENT_TYPE.POST);
             } else {
                 store("Current_self_assessment_type", SELF_ASSESSMENT_TYPE.PRE);
-                store("Current_emotion",get_next_emotion_in_list(update_index=true));
+                if(should_update) {
+                    store("Current_emotion",get_next_emotion_in_list(update_index=true));
+                }
             }
             break;
+
         case PAGE_TYPES.EMOTION_ACTIVATION:
-            store_start_time(get("Current_emotion"));
-            start_page_timer(10*60); // Timer for 10 minutes
+            if (should_update) {
+                store_start_time(get("Current_emotion"));
+                start_page_timer(10*60); // Timer for 10 minutes
+            }
             break;
+
         case PAGE_TYPES.TASK:
-            start_page_timer(4*60); // Timer for 4 minutes.
+            if (should_update) {
+                start_page_timer(4*60); // Timer for 4 minutes.
+            }
+            break;
+
         default:
             break;
     }
+
+    // if(get("Current_page_type")!== PAGE_TYPES.START) {
+    //     store("Last_recorded_page_type", get("Current_page_type"));
+    // }
 }
 
 function leave_page() {
@@ -440,19 +533,23 @@ function leave_page() {
         case PAGE_TYPES.CONSENT_FORM:
             store_consent_form();
             break;
+
         case PAGE_TYPES.QUESTIONNAIRE:
             store_questionnaire();
             break;
+
         case PAGE_TYPES.SETUP:
-            start_experiment()// Change this
             break;
+
         case PAGE_TYPES.SELF_ASSESSMENT:
             store_self_assessment_form(get("Current_emotion"), get("Current_self_assessment_type"));
             break;
+
         case PAGE_TYPES.EMOTION_ACTIVATION:
             store_end_time(get("Current_emotion"));
             store("Previous_emotion", get("Current_emotion"));
             break;
+
         default:
             break;
     }
@@ -466,7 +563,7 @@ function leave_page() {
 //              Navigation
 //========================================
 
-function get_next_emotion_in_list(update_index) {
+function get_next_emotion_in_list(update_index = false) {
     var current_emotion_index = get("Emotion_index");
 
     var next_emotion_index = Number(current_emotion_index) + 1;
@@ -475,107 +572,202 @@ function get_next_emotion_in_list(update_index) {
         store("Emotion_index",next_emotion_index);
     }
 
-
     return get("Emotion_list")[next_emotion_index];
-
 }
 
 
-function get_next_task_in_list() {
+function get_next_task_in_list(update_index = false) {
     var current_task_index = get("Task_index");
     
-    var next_task_index = Number(current_task_index) + 1;
-    
-    store("Task_index",next_task_index);
-
+    if(update_index) {
+        var next_task_index = Number(current_task_index) + 1;
+        store("Task_index",next_task_index);
+    }
     return get("Task_list")[current_task_index];
+}
+
+function navigate_to_page(page_type, subtype="") {
+    // page_type of type PAGE_TYPES (enum)
+    // subtype is used to specify subtypes such as emotion type or task type
+    switch(page_type) {
+        case PAGE_TYPES.WELCOME:
+            location.href=get("Base_path") + "pages/" + "welcome.html";
+            break;
+
+        case PAGE_TYPES.CONSENT_FORM:
+            location.href = get("Base_path") + "pages/" + 'consent_form.html';
+            break;
+
+        case PAGE_TYPES.QUESTIONNAIRE:
+            location.href = get("Base_path") + "pages/" + 'questionnaire.html';
+            break;
+
+        case PAGE_TYPES.SETUP:
+            location.href = get("Base_path") + "pages/" + "setup_phase.html";
+            break;
+
+        case PAGE_TYPES.SELF_ASSESSMENT:
+            location.href = get("Base_path") + "pages/" + "self_assessment.html";
+
+        case PAGE_TYPES.EMOTION_ACTIVATION:
+            switch(subtype) {
+                case EMOTIONS.BASELINE:
+                    location.href= get("Base_path") + "pages/" + "emotions/" + "baseline.html";
+                    break;
+                case EMOTIONS.SAD:
+                    location.href= get("Base_path") + "pages/" + "emotions/" + "sad.html";
+                    break;
+
+                case EMOTIONS.RELAXED:
+                    location.href= get("Base_path") + "pages/" + "emotions/" + "relaxed.html";
+                    break;
+                
+                case EMOTIONS.EXCITED:
+                    location.href= get("Base_path") + "pages/" + "emotions/" + "excited.html";
+                    break;
+
+                case EMOTIONS.AFRAID:
+                    location.href= get("Base_path") + "pages/" + "emotions/" + "afraid.html";
+                    break;
+            }
+            break;
+
+        case PAGE_TYPES.TASK:
+            switch(subtype) {
+                case TASKS.FIND_ALL_A:
+                    location.href= get("Base_path") + "pages/" + "tasks/" + "find_all_a.html";
+                    break;
+
+                case TASKS.GEOMETRIC_SHAPE_COPYING:
+                    location.href= get("Base_path") + "pages/" + "tasks/" + "geometric_shape_copying.html";
+                    break;
+                
+                case TASKS.MAZE_SOLVING:
+                    location.href= get("Base_path") + "pages/" + "tasks/" + "maze_solving.html";
+                    break;
+
+                case TASKS.SUDOKU:
+                    location.href= get("Base_path") + "pages/" + "tasks/" + "sudoku.html";
+                    break;
+            }
+            break;
+
+        case PAGE_TYPES.THANK_YOU:
+            location.href= get("Base_path") + "pages/" + "thank_you.html";
+            break;
+        
+        case PAGE_TYPES.FINAL:
+            location.href = get("Base_path") + "pages/" + "final.html";
+            break;
+        
+        default:
+            console.error("Page does not exist!");
+            break;
+    }
 }
 
 
 function navigate_to_next_page() {
     switch(get("Current_page_type")) {
-        case PAGE_TYPES.WELCOME:
-            location.href= get("Base_path") + "pages/" + "consent_form.html";
+        case PAGE_TYPES.START:
+            navigate_to_page(PAGE_TYPES.WELCOME);
             break;
+        case PAGE_TYPES.WELCOME:
+            navigate_to_page(PAGE_TYPES.CONSENT_FORM);
+            break;
+
         case PAGE_TYPES.CONSENT_FORM:
             const consent = document.getElementById("consent");
             if(consent.checked == true) {
-                location.href = get("Base_path") + "pages/" + 'questionnaire.html';
+                navigate_to_page(PAGE_TYPES.QUESTIONNAIRE);
             } else {
                 document.getElementById("consent_form_error").style.display = "block";
                 console.warn("You have to check the box to continue");
                 return;
             }
             break;
+
         case PAGE_TYPES.QUESTIONNAIRE:
-            location.href = get("Base_path") + "pages/" + "setup_phase.html";
+                navigate_to_page(PAGE_TYPES.SETUP);
             break;
+
         case PAGE_TYPES.SETUP:
             if(document.getElementById("setup_complete").checked == true) {
-                location.href=get("Base_path") + "pages/" + "emotions/baseline.html";
+                navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, EMOTIONS.BASELINE);
+
             } else {
                 document.getElementById("setup_complete_error").style.display = "block";
                 return;
             }
             break;
+
         case PAGE_TYPES.SELF_ASSESSMENT:
+            console.log("Navigating from self_assessment");
             switch(get("Current_self_assessment_type")){
                 case SELF_ASSESSMENT_TYPE.POST:
                     // Here we have done the post-assessment
-                    switch(get_next_task_in_list()) {
+                    console.log("Type=post");
+                    switch(get_next_task_in_list(update_index = true)) {
                         case TASKS.SUDOKU:
-                            location.href = get("Base_path") + "pages/" + "tasks/" + 'sudoku.html';
+                            navigate_to_page(PAGE_TYPES.TASK, TASKS.SUDOKU);
                             break;
                         case TASKS.FIND_ALL_A:
-                            location.href = get("Base_path") + "pages/" + "tasks/" + 'find_all_a.html';
+                            navigate_to_page(PAGE_TYPES.TASK, TASKS.FIND_ALL_A);
                             break;
                         case TASKS.MAZE_SOLVING:
-                            location.href = get("Base_path") + "pages/" + "tasks/" + 'maze_solving.html';
+                            navigate_to_page(PAGE_TYPES.TASK, TASKS.MAZE_SOLVING);
                             break;
                         case TASKS.GEOMETRIC_SHAPE_COPYING:
-                            location.href = get("Base_path") + "pages/" + "tasks/" + 'geometric_shape_copying.html';
+                            navigate_to_page(PAGE_TYPES.TASK, TASKS.GEOMETRIC_SHAPE_COPYING);
                             break;
                         default:
                             // This happens when we finish the task!
-                            location.href = get("Base_path") + "pages/" + "finished.html";
+                            navigate_to_page(PAGE_TYPES.THANK_YOU);
                             break;
                     }
                     break;
 
                 case SELF_ASSESSMENT_TYPE.PRE:
+                    console.log("Type=pre");
                     // Here we have done the pre-assessment
                     switch(get("Current_emotion")) {
                         case EMOTIONS.SAD:
-                            location.href= get("Base_path") + "pages/" + "emotions/" + "sad.html";
+                            navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, EMOTIONS.SAD)
                             break;
         
                         case EMOTIONS.RELAXED:
-                            location.href= get("Base_path") + "pages/" + "emotions/" + "relaxed.html";
+                            navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, EMOTIONS.RELAXED)
                             break;
                         
                         case EMOTIONS.EXCITED:
-                            location.href= get("Base_path") + "pages/" + "emotions/" + "excited.html";
+                            navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, EMOTIONS.EXCITED)
                             break;
         
                         case EMOTIONS.AFRAID:
-                            location.href= get("Base_path") + "pages/" + "emotions/" + "afraid.html";
+                            navigate_to_page(PAGE_TYPES.EMOTION_ACTIVATION, EMOTIONS.AFRAID)
                             break;
                         default:
-                            location.href= get("Base_path") + "pages/" + "./final.html";
+                            navigate_to_page(PAGE_TYPES.THANK_YOU);
                             break;
                     }
                     break;
             }
             break;
+
         case PAGE_TYPES.EMOTION_ACTIVATION:
-            location.href=get("Base_path") + "pages/" + "self_assessment.html";
+            navigate_to_page(PAGE_TYPES.SELF_ASSESSMENT);
             break;
+
         case PAGE_TYPES.TASK:
-            location.href = get("Base_path") + "pages/" + "self_assessment.html";
+            store("Current_self_assessment_type", SELF_ASSESSMENT_TYPE.PRE);
+
+            navigate_to_page(PAGE_TYPES.SELF_ASSESSMENT);
             break;
+
         case PAGE_TYPES.THANK_YOU:
-            location.href = get("Base_path") + "pages/" + "final.html";
+            navigate_to_page(PAGE_TYPES.FINAL);
             break;
+            
         default:
             console.error("Got " + get("Current_page_type"));
             return;         
@@ -591,3 +783,15 @@ function navigate_to_previous_page() {// Have to fix this
     location.href = get("Previous_page");
 
 }
+
+
+//========================================
+//              Security
+//========================================
+
+function detect_closing_tab() {
+    window.addEventListener('beforeunload', () => {
+        store("Last_recorded_page_type", get("Current_page_type"));
+    })
+}
+

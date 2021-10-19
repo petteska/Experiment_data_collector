@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Title page</title>
+    <link rel="stylesheet" href="../general.css">
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1 lang="en">Welcome page</h1>
+            <h1 lang="no">Velkommen</h1>
+            <p lang="en">
+                Hi! Welcome to this experiment. We are very happy that you chose to be a part of this. 
+                <br> <br>
+                In this experiment you will be asked to write about several emotional situations. You can write in whatever language feels most natural to you.
+                <br> <br>
+                <span class="important_info">We will make sure that all you write will stay with you. No one is going to read the texts that you write during this experiment.</span> 
+                <br> <br>
+                You are free to quit the experiment whenver you want. Notify the researcher.
+                <br> <br>
+                Choose your prefered language for the instructions in the menu below and press the button "Continue" to get started.
+            </p>
+
+            <p lang="no">
+                <!-- Update info as above -->
+                Hei! Velkommen til dette eksperimentet. Vi er veldig taknemmelige for at du har valgt å delta. 
+                <br> <br>
+                I dette eksperimentet vil du bli bedt om å skrive om flere emosjonelle situasjoner. Du kan srive på det språket som føles mest naturlig for deg.
+                <br> <br>
+                <span class="important_info">Vi vil sørge for at alt du skriver forblir hos deg. Ingen vil lese tekstene du skriver i løpet av dette eksperimentet.</span>
+                <br> <br>
+                Velg ønsket språk i menyen under og trykk "Fortsett" for å begynne eksperimentet.
+            </p>
+        </div>
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span>
+            </button>
+        </div>
+    </div>
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norsk</option>
+            </select>
+        </div>
+    </div>
+
+    <script src="../utils.js"></script>
+    <script>
+        store("Current_page_type", PAGE_TYPES.WELCOME);
+        enter_page();
+    </script>
+</body>
+</html>

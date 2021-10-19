@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Title page</title>
-    <link rel="stylesheet" href="general.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../general.css">
+    <title>Finished</title>
 </head>
 <body>
     <div class="content">
         <div class="information">
-            <h1 lang="en">Welcome page</h1>
-            <h1 lang="no">Velkommen</h1>
-            <p lang="en">
-                Hi! Welcome to this experiment. We are very happy that you chose to be a part of this. 
-                <br> <br>
-                Before we start the experiment, we would like that you answer some simple questions.
-                <br> <br>
-                Choose your prefered language in the menu below and press the button "Continue" to get started.
-            </p>
+            <h1 lang="en">You are finished!</h1>
+            <h1 lang="no">Du er ferdig!</h1>
 
+            <hr>
+
+            <p lang="en">
+                Thank you so much for participating in this study! It is a great contribution to our research :) 
+                <br> <br>
+                You can now hand over the computer to the researcher. <span class="important_info">Please make sure not to close anything!</span> 
+                <br> <br>
+                You can take what you have written with you.
+            </p>
             <p lang="no">
-                Hei! Velkommen til dette eksperimentet. Vi er veldig taknemmelige for at du har valgt å delta. 
+                Tusen takk for at du deltok i dette eksperimentet! Det er til stor hjelp for vår forskning :)
                 <br> <br>
-                Før vi starter ønsker vi å stille deg noen enkle spørsmål. 
+                Du kan nå levere pc-en til den som er ansvarlig for eksperimentet. <span class="important_info">Sørg for at du ikke lukker noen faner eller programmer.</span>
                 <br> <br>
-                Velg ønsket språk i menyen under og trykk "Fortsett" for å begynne eksperimentet.
+                Du kan ta med deg det du har skrevet.
             </p>
         </div>
         <div class="navigation_buttons">
@@ -45,11 +50,11 @@
         </div>
     </div>
 
-    <script src="utils.js"></script>
+    <script src="../utils.js"></script>
     <script>
-        init();
-        store("Current_page_type", PAGE_TYPES.WELCOME);
+        store("Current_page_type", PAGE_TYPES.THANK_YOU);
         enter_page();
     </script>
+    
 </body>
 </html>
