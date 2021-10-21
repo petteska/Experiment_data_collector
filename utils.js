@@ -10,6 +10,7 @@ const EMOTIONS = {
 }
 
 const LANGUAGE = {
+    // Supported languages
     ENGLISH: "en",
     NORWEGIAN: "no",
 }
@@ -28,6 +29,7 @@ const PAGE_TYPES = {
 }
 
 const TASKS = {
+    // Distraction tasks
     SUDOKU: "sudoku",
     MAZE_SOLVING: "maze_solving",
     GEOMETRIC_SHAPE_COPYING: "geometric_shape_copying",
@@ -40,12 +42,18 @@ const SELF_ASSESSMENT_TYPE = {
     POST: "post",
 }
 
+const SOUNDS = {
+    // file name of different saved sounds
+    NONE: "",
+    POSITIVE_BEEP: "positive_finish.wav",
+}
+
 //========================================
 //              Storage
 //========================================
 
 function clear_storage(keep) {
-    // keep is a list of elements to keep in storage
+    // clear localStorage except for elements in list keep
     var data = [];
     for (var i = 0; i < keep.length; i++) {
         try {
@@ -63,16 +71,18 @@ function clear_storage(keep) {
 }
 
 function store(name,data) {
-    // sessionStorage.setItem(name, JSON.stringify(data));
+    // Store data on key name in localStorage
     localStorage.setItem(name, JSON.stringify(data));
 }
 
 function get(name) {
+    // Get data stored on key name from localStorage
     return JSON.parse(localStorage.getItem(name));
     
 }
 
 function download_file(filename, data) {
+    // Download data as a text-file
     const textToBLOB = new Blob([data], { type: 'text/plain' });
 
     let newLink = document.createElement("a");
@@ -92,6 +102,7 @@ function download_file(filename, data) {
 
 
 function convert_stored_data_to_JSON() {
+    // convert specific data stored in localStorage to a JSON string
     const Experiment_data = {
         id: get("Subject_id"),
         consent: get("Consent"),
@@ -106,6 +117,7 @@ function convert_stored_data_to_JSON() {
 }
 
 function make_stored_data_printable() {
+    // Make data stored in localStorage into a printable string
     var data = 
     "ID: " + get("Subject_id") + "\r\n" +
     "Consent: " + get("Consent") + "\r\n" +
@@ -124,6 +136,7 @@ function make_stored_data_printable() {
 //========================================
 
 function init_language_selector() {
+    // Initialize the language selector. Should be runned when entering every page
     let current_language = get("language");
     if(current_language !== null) {
         document.getElementById("language_select").value = current_language;
@@ -134,6 +147,7 @@ function init_language_selector() {
 }
 
 function update_language() {
+    // Update language dependent on the input in the settings bar.
     let new_language = document.getElementById("language_select").value;
     store("language", new_language);
     document.body.setAttribute('lang', new_language);
@@ -144,8 +158,8 @@ function update_language() {
 //========================================
 
 function shuffleArray(array) {
+    // Shuffle array
     for (let i = array.length - 1; i > 0; i--) {
-    
         // Generate random number
         let j = Math.floor(Math.random() * (i + 1));
                     
@@ -158,6 +172,8 @@ function shuffleArray(array) {
 }
 
 function get_value_radio(elements) {
+    // Get value from radio input
+    // elements of type Document.getElementByValue(value)
     for(i = 0; i < elements.length; i++) {
         if(elements[i].checked)
         return elements[i].value;
@@ -165,17 +181,20 @@ function get_value_radio(elements) {
 }
 
 function get_time() {
+    // Get current time
     var today = new Date();
     return today.now;
 }
 
 function get_time_string() {
+    // Get current time in format hh:mm:ss
     var today = new Date();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     return time;
 }
 
 function change_text_element(id, new_text) {
+    // Change HTML text element with id to new_text.
     try {
         document.getElementById(id).innerText = new_text;
     } catch(error) {
@@ -183,17 +202,31 @@ function change_text_element(id, new_text) {
     }
 }
 
+// function sleep(duration) {
+//     // Sleep for duration seconds. Have to be used as follows:
+//     // await sleep(duration);
+
+
+// }
+
+function play_sound(sound_file_path) {
+    // Play sound defined in sound (type SOUND)
+    let audio = new Audio(sound_file_path);
+    audio.play();
+}
 
 //========================================
 //              Timer
 //========================================
 
-function start_page_timer(duration) {
+function start_page_timer(duration, finish_sound = SOUNDS.NONE) {
+    // After duration, a box will popup with a 10 seconds countdown. 
+    // After the 10 seconds, the web-interface will switch to the next page.
     console.log("Timer duration:" + duration + "s");
 
     let current_page = get("Current_page");
 
-    let popup_timer = window.setTimeout(()=>{start_countdown_popup(10)}, duration*1000);
+    let popup_timer = window.setTimeout(()=>{start_countdown_popup(5, finish_sound)}, duration*1000);
 
 
     let check_button_push = window.setInterval(()=>{
@@ -204,7 +237,9 @@ function start_page_timer(duration) {
     }, 100);
 }
 
-function start_countdown_popup(time_left){
+function start_countdown_popup(time_left, finish_sound = SOUNDS.NONE){
+    // Show a popup with a time_left seconds countdown. 
+    // After the time_left seconds, the web-interface will play finish_sound and switch to the next page.
     let time_left_print = document.getElementById("time_left");
 
     let current_page = get("Current_page");
@@ -215,15 +250,27 @@ function start_countdown_popup(time_left){
         if(get("Current_page") != current_page){
             window.clearInterval(count_down);
         }
-        time_left_print.innerText = time_left--;
+        if (--time_left >= 0) {
+            time_left_print.innerText = time_left
+        }
+        if(time_left < 1) {
+            switch (finish_sound) {
+                case SOUNDS.NONE:
+                    break;
+                default:
+                    console.log("Playing sound");
+                    let sound_path = get("Base_path") + "sounds/" + SOUNDS.POSITIVE_BEEP;
+                    play_sound(sound_path);
+                    break;
+            }
+        }
         if(time_left < 0) {
             window.clearInterval(count_down); 
             navigate_to_next_page();
+                    
             console.log("coundown done!")
         }
     },1000);    
-
-    
 }
 
 //========================================
@@ -231,13 +278,13 @@ function start_countdown_popup(time_left){
 //========================================
 
 function show_popup(id) {
-    // document.getElementById(id).style.display="block";
+    // Show hidden element with id as a popup
     document.getElementById(id).classList.add("show");
     
 }
 
 function hide_popup(id) {
-    // document.getElementById(id).style.display="none"
+    // Hide visible element with id as a popup
     document.getElementById(id).classList.remove("show");
 }
 
@@ -307,8 +354,6 @@ function store_self_assessment_form(emotion, self_assessment_type) {
 //========================================
 //              Page actions
 //========================================
-
-// Helper functions
 
 function store_start_time(emotion) {
     var emotion_data = get("Emotion_data");
@@ -489,10 +534,6 @@ function enter_page() {
             }
             break;
 
-        // case PAGE_TYPES.WELCOME:
-        //     update_language()
-        //     break;
-
         case PAGE_TYPES.SELF_ASSESSMENT:
             if (get("Previous_page_type") == PAGE_TYPES.EMOTION_ACTIVATION){
                 store("Current_self_assessment_type", SELF_ASSESSMENT_TYPE.POST);
@@ -505,25 +546,31 @@ function enter_page() {
             break;
 
         case PAGE_TYPES.EMOTION_ACTIVATION:
+            store_start_time(get("Current_emotion"));
             if (should_update) {
-                store_start_time(get("Current_emotion"));
-                start_page_timer(10*60); // Timer for 10 minutes
+                switch (get("Current_emotion")) {
+                    case EMOTIONS.BASELINE:
+                        // start_page_timer(4*60); // Timer for 4 minutes
+                        start_page_timer(1, finish_sound = SOUNDS.POSITIVE_BEEP);
+                        break
+                    default:
+                        // start_page_timer(7*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
+                        start_page_timer(7, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
+                        break
+                }
             }
             break;
 
         case PAGE_TYPES.TASK:
             if (should_update) {
-                start_page_timer(4*60); // Timer for 4 minutes.
+                // start_page_timer(4*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
+                start_page_timer(4, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
             }
             break;
 
         default:
             break;
     }
-
-    // if(get("Current_page_type")!== PAGE_TYPES.START) {
-    //     store("Last_recorded_page_type", get("Current_page_type"));
-    // }
 }
 
 function leave_page() {

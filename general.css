@@ -56,7 +56,8 @@ button {
     position: absolute;
     text-align: center;
     align-items: center;
-    margin: auto;
+    margin: 30px 30px 30px 30px;
+    /* margin: auto; */
     /* background-color: #d1dfe2; */
     border-radius: 1%;
     padding: 10px 30px 10px 30px;
@@ -105,7 +106,7 @@ button {
     to {opacity: 1;}
   }
 
-  @keyframes fadeIn {
+@keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
   }
