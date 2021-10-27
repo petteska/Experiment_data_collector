@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../general.css">
+    <title>Relaxed</title>
+</head>
+<body>
+    <div class="content">
+        <div class="information">
+            <h1 lang="en">Relaxed</h1>
+            <h1 lang="no">Avslappet</h1>
+
+            <hr>
+
+            <p lang="en">
+                Please describe in detail a situation where you felt very relaxed/calm/content you have been in your life, and describe it such that a person reading the description would become relaxed.
+                <br>
+                Choose a situation that, when you think about it, makes you feel relaxed/calm/content.
+                <br> <br>
+                Our goal is for you to experience the same emotions as you did then, so choose a situation with strong feelings that you have a clear memory of. 
+                <br> <br>
+                Write down an as vivid description of the situation as possible. You may include what happend, what do you see and hear and how did that make you feel. 
+                <br>
+            </p>
+            <p lang="no">
+                Beskriv i en situasjon i livet ditt hvor du følte deg veldig avslappet, og beskriv den slik at en person som leser beskrivelsen også føler seg avslappet.
+                <br>
+                Velg en situasjon som gjør deg avslappet når du tenker på den nå.
+                <br> <br>
+                Målet er at du skal kjenne på den samme følelsen som du gjorde i situasjonen du beskriver. Velg derfor et minne som du husker godt.
+                <br> <br>
+                I beskrivelsen kan du ta med hva du ser, hører og føler.
+            </p>
+        </div>
+
+        <div class="session_information">
+            <p lang="en">
+                You should write using the pen and paper provided.
+                <br> <br>
+                This session will last 10 minutes. You will be notified when the time is up and will automatically be led to the next page of the experiment.
+                <br> <br>
+                Remember! We will make sure that whatever you write will stay with you.
+                <br> <br>
+            </p>
+            <p lang="no">
+                Du skal skrive med utdelt pen og papir.
+                <br> <br>
+                Denne oppgaven varer i 10 minutter. Du vil få beskjed når tiden er gått ut og vil automatisk bli ført videre i eksperimentet.
+                <br> <br>
+                Husk! Vi vil sørge for at alt du skriver forblir hos deg.
+                <br> <br>
+            </p>
+
+            <p lang="en" class="important_info">
+                Do not press "Continue" until you are finished with the task!
+            </p>
+            <p lang="no" class="important_info">
+                Ikke trykk "Fortsett" før du er ferdig med oppgaven!
+            </p>
+        </div>
+        
+        <div class="navigation_buttons">
+            <button onclick="navigate_to_previous_page()"> 
+                <span lang="en">Back</span> 
+                <span lang="no">Tilbake</span> 
+            </button>
+            <button onclick="navigate_to_next_page()"> 
+                <span lang="en">Continue</span> 
+                <span lang="no">Fortsett</span> 
+            </button>
+        </div>
+
+        <div class="popup" id="popup_countdown">
+            <div class="popuptext" >
+                <h3 lang="en">Time is running out!</h3>
+                <h3 lang="no">Tiden løper ut!</h3>
+
+                <p lang="en" id="popup_msg">You will be brought to the next page in <span id="time_left"></span> seconds.</p>
+                <p lang="no" id="popup_msg">Du vil bli sendt til neste side om <span id="time_left"></span> sekunder.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings">
+        <div class="language_select">
+            <label for="language_select">
+                <span lang="en">Language:</span>
+                <span lang="no">Språk:</span>
+            </label>
+            <select name="language_select" id="language_select" onchange="update_language()">
+                <option value="en" selected="selected">English</option>
+                <option value="no">Norwegian</option>
+            </select>
+        </div>
+    </div>
+    
+    <script src="../../utils.js"></script>
+    <script>
+        store("Current_page_type", PAGE_TYPES.EMOTION_ACTIVATION);
+        store("Current_emotion",EMOTIONS.RELAXED);
+        enter_page();
+    </script>
+    
+</body>
+</html>

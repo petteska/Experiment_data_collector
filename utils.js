@@ -253,7 +253,7 @@ function start_countdown_popup(time_left, finish_sound = SOUNDS.NONE){
         if (--time_left >= 0) {
             time_left_print.innerText = time_left
         }
-        if(time_left < 1) {
+        if(time_left == 0) {
             switch (finish_sound) {
                 case SOUNDS.NONE:
                     break;
@@ -264,7 +264,7 @@ function start_countdown_popup(time_left, finish_sound = SOUNDS.NONE){
                     break;
             }
         }
-        if(time_left < 0) {
+        if(time_left < -1) {
             window.clearInterval(count_down); 
             navigate_to_next_page();
                     
@@ -547,25 +547,25 @@ function enter_page() {
 
         case PAGE_TYPES.EMOTION_ACTIVATION:
             store_start_time(get("Current_emotion"));
-            if (should_update) {
-                switch (get("Current_emotion")) {
-                    case EMOTIONS.BASELINE:
-                        // start_page_timer(4*60); // Timer for 4 minutes
-                        start_page_timer(1, finish_sound = SOUNDS.POSITIVE_BEEP);
-                        break
-                    default:
-                        // start_page_timer(7*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
-                        start_page_timer(7, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
-                        break
-                }
+            // if (should_update) {
+            switch (get("Current_emotion")) {
+                case EMOTIONS.BASELINE:
+                    start_page_timer(4*60); // Timer for 4 minutes
+                    // start_page_timer(1, finish_sound = SOUNDS.POSITIVE_BEEP);
+                    break
+                default:
+                    start_page_timer(7*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
+                    // start_page_timer(7, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
+                    break
             }
+            // }
             break;
 
         case PAGE_TYPES.TASK:
-            if (should_update) {
-                // start_page_timer(4*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
-                start_page_timer(4, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
-            }
+            // if (should_update) {
+            start_page_timer(4*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
+                // start_page_timer(4, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
+            // }
             break;
 
         default:
