@@ -15,6 +15,11 @@ const LANGUAGE = {
     NORWEGIAN: "no",
 }
 
+const VIEW_TYPE = {
+    EXPERIMENT: "experiment",
+    DEVELOPMENT: "development"
+}
+
 const PAGE_TYPES = {
     START: "start",
     WELCOME: "welcome",
@@ -151,6 +156,44 @@ function update_language() {
     let new_language = document.getElementById("language_select").value;
     store("language", new_language);
     document.body.setAttribute('lang', new_language);
+}
+
+//========================================
+//              View options
+//========================================
+
+function init_view_selector() {
+    let current_view = get("view_type");
+    if (current_view !== null) {
+        document.getElementById("view_select").value = current_view;
+    }
+    update_view()
+}
+
+function update_view() {
+    // Update view type based on input from the settings bar.
+    let new_view_type = document.getElementById("view_select").value;
+    store("view_type", new_view_type)
+
+    let dev_elements = document.getElementsByClassName("development");
+
+    switch (new_view_type) {
+        case VIEW_TYPE.EXPERIMENT:
+            // Hide all development data
+            for (let i = 0; i< dev_elements.length; i++) {
+                dev_elements[i].classList.add("hidden")
+            }
+            break;
+        
+        case VIEW_TYPE.DEVELOPMENT:
+            // Show all development data
+            for (let i = 0; i< dev_elements.length; i++) {
+                dev_elements[i].classList.remove("hidden")
+            }
+            break;
+    }
+    
+
 }
 
 //========================================
@@ -517,6 +560,7 @@ function enter_page() {
     }
     
     init_language_selector();
+    init_view_selector();
 
     switch(get("Current_page_type")) {
         case PAGE_TYPES.START:
@@ -550,7 +594,7 @@ function enter_page() {
             // if (should_update) {
             switch (get("Current_emotion")) {
                 case EMOTIONS.BASELINE:
-                    start_page_timer(4*60); // Timer for 4 minutes
+                    start_page_timer(4*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes
                     // start_page_timer(1, finish_sound = SOUNDS.POSITIVE_BEEP);
                     break
                 default:
@@ -564,7 +608,7 @@ function enter_page() {
         case PAGE_TYPES.TASK:
             // if (should_update) {
             start_page_timer(4*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
-                // start_page_timer(4, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
+            // start_page_timer(4, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 4 minutes.
             // }
             break;
 
@@ -635,6 +679,10 @@ function navigate_to_page(page_type, subtype="") {
     // page_type of type PAGE_TYPES (enum)
     // subtype is used to specify subtypes such as emotion type or task type
     switch(page_type) {
+        case PAGE_TYPES.START:
+            location.href = get("Base_path") + "start.html";
+            break;
+            
         case PAGE_TYPES.WELCOME:
             location.href=get("Base_path") + "pages/" + "welcome.html";
             break;

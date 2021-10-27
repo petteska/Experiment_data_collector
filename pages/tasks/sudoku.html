@@ -45,7 +45,7 @@
                 </p>
             </div>
         </div>
-        <div class="navigation_buttons">
+        <div class="navigation_buttons development">
             <button onclick="navigate_to_previous_page()"> <span lang="en">Back</span> <span lang="no">Tilbake</span> </button>
             <button onclick="navigate_to_next_page()"> <span lang="en">Continue</span> <span lang="no">Fortsett</span> </button>
         </div>
@@ -69,6 +69,16 @@
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
                 <option value="no">Norwegian</option>
+            </select>
+        </div>
+        <div class="view_select">
+            <label for="view_select">
+                <span lang="en">View type:</span>
+                <span lang="no">Visningstype:</span>
+            </label>
+            <select name="view_select" id="view_select" onchange="update_view()">
+                <option value="experiment" selected="selected">Experiment</option>
+                <option value="development">Development</option>
             </select>
         </div>
     </div>

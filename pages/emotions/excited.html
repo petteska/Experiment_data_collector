@@ -16,14 +16,18 @@
             <hr>
 
             <p lang="en">
-                Please describe in detail the one situation that made you the most excited/thrilled you have been in your life, and describe it such that a person reading the description would become excited.
+                Please describe in detail a situation where you felt very excited/thrilled you have been in your life, and describe it such that a person reading the description would become excited.
+                <br>
+                Choose a situation that, when you think about it, makes you feel excited/thrilled.
                 <br> <br>
                 Our goal is for you to experience the same emotions as you did then, so choose a situation with strong feelings that you have a clear memory of. 
                 <br> <br>
                 Write down an as vivid description of the situation as possible. You may include what happend, what do you see and hear and how did that make you feel.
             </p>
             <p lang="no">
-                Beskriv i detalj en situasjon hvor du var veldig oppstemt/ekstatisk/glad, og beskriv den slik at en person som leser beskrivelsen også føler seg oppstemt/ekstatisk.
+                Beskriv i detalj en situasjon i livet ditt hvor du følte deg veldig oppstemt/ekstatisk/glad, og beskriv den slik at en person som leser beskrivelsen også føler seg oppstemt/ekstatisk.
+                <br>
+                Velg en situasjon som gjør deg oppstemt/ekstatisk/glad når du tenker på den nå.
                 <br> <br>
                 Målet er at du skal kjenne på den samme følelsen som du gjorde i situasjonen du beskriver. Velg derfor et minne med sterke følelser og som du husker godt.
                 <br> <br>
@@ -41,7 +45,7 @@
                 <br> <br>
             </p>
             <p lang="no">
-                Du skal skrive med utdelt pen og papir.
+                Du skal skrive med utdelt penn og papir.
                 <br> <br>
                 Denne oppgaven varer i 10 minutter. Du vil få beskjed når tiden er gått ut og vil automatisk bli ført videre i eksperimentet.
                 <br> <br>
@@ -49,15 +53,15 @@
                 <br> <br>
             </p>
 
-            <p lang="en" class="important_info">
+            <!-- <p lang="en" class="important_info">
                 Do not press "Continue" until you are finished with the task!
             </p>
             <p lang="no" class="important_info">
                 Ikke trykk "Fortsett" før du er ferdig med oppgaven!
-            </p>
+            </p> -->
         </div>
         
-        <div class="navigation_buttons">
+        <div class="navigation_buttons development">
             <button onclick="navigate_to_previous_page()"> 
                 <span lang="en">Back</span> 
                 <span lang="no">Tilbake</span> 
@@ -88,6 +92,16 @@
             <select name="language_select" id="language_select" onchange="update_language()">
                 <option value="en" selected="selected">English</option>
                 <option value="no">Norwegian</option>
+            </select>
+        </div>
+        <div class="view_select">
+            <label for="view_select">
+                <span lang="en">View type:</span>
+                <span lang="no">Visningstype:</span>
+            </label>
+            <select name="view_select" id="view_select" onchange="update_view()">
+                <option value="experiment" selected="selected">Experiment</option>
+                <option value="development">Development</option>
             </select>
         </div>
     </div>
