@@ -598,7 +598,7 @@ function enter_page() {
                     // start_page_timer(1, finish_sound = SOUNDS.POSITIVE_BEEP);
                     break
                 default:
-                    start_page_timer(7*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
+                    start_page_timer(5*60, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 5 minutes
                     // start_page_timer(7, finish_sound = SOUNDS.POSITIVE_BEEP); // Timer for 7 minutes
                     break
             }
